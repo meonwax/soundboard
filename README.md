@@ -1,6 +1,6 @@
 # Soundboard
 
-Plays short sound samples on you android device.
+Play short sound samples on your Android device.
 
 ## Resources
 
