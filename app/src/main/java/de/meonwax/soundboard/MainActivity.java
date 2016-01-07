@@ -1,5 +1,6 @@
 package de.meonwax.soundboard;
 
+import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -42,6 +43,17 @@ public class MainActivity extends ActionBarActivity {
         soundIds.add(soundPool.load(this, R.raw.bell, 1));
         soundIds.add(soundPool.load(this, R.raw.can_open, 1));
         soundIds.add(soundPool.load(this, R.raw.coin, 1));
+    }
+
+    private int getRecommendedSampleRate() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            String sampleRate = audioManager.getProperty(AudioManager.PROPERTY_OUTPUT_SAMPLE_RATE);
+            if (sampleRate != null) {
+                return Integer.parseInt(sampleRate);
+            }
+        }
+        return 44100;
     }
 
     public void playSound(View v) {
