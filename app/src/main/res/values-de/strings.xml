@@ -1,0 +1,5 @@
+<resources>
+    <string name="action_new">Neu</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="action_about">Über</string>
+</resources>
