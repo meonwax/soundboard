@@ -40,16 +40,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Toast.makeText(this, getString(R.string.action_settings), Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.action_new) {
-            Toast.makeText(this, getString(R.string.action_new), Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.action_about) {
-            Toast.makeText(this, getString(R.string.action_about), Toast.LENGTH_SHORT).show();
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Toast.makeText(this, getString(R.string.action_settings), Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_new:
+                Toast.makeText(this, getString(R.string.action_new), Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_about:
+                Toast.makeText(this, getString(R.string.action_about), Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_exit:
+                finish();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

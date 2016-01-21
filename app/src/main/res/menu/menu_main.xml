@@ -11,12 +11,18 @@
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/action_settings"
-        compat:showAsAction="never" />
+        compat:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_about"
         android:icon="@drawable/ic_info_black_24dp"
         android:title="@string/action_about"
+        compat:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_exit"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:title="@string/action_exit"
         compat:showAsAction="never" />
 
 </menu>
