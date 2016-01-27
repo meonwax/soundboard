@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.meonwax.soundboard.file.FilePickerDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, getString(R.string.action_settings), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_new:
-                Toast.makeText(this, getString(R.string.action_new), Toast.LENGTH_SHORT).show();
+                DialogFragment filePickerFragment = new FilePickerDialogFragment();
+                filePickerFragment.show(getSupportFragmentManager(), "filePicker");
                 break;
             case R.id.action_about:
                 Toast.makeText(this, getString(R.string.action_about), Toast.LENGTH_SHORT).show();
