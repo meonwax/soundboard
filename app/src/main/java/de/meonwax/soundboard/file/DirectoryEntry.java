@@ -13,4 +13,13 @@ public class DirectoryEntry {
         this.size = size;
         this.isDirectory = isDirectory;
     }
+
+    public String toString() {
+        return "DirectoryEntry{" +
+                "name='" + name + '\'' +
+                ", path='" + path + '\'' +
+                ", size=" + size +
+                ", isDirectory=" + isDirectory +
+                '}';
+    }
 }
