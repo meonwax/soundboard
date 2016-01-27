@@ -1,6 +1,8 @@
 package de.meonwax.soundboard;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 filePickerFragment.show(getSupportFragmentManager(), "filePicker");
                 break;
             case R.id.action_about:
-                Toast.makeText(this, getString(R.string.action_about), Toast.LENGTH_SHORT).show();
+                showAbout();
                 break;
             case R.id.action_exit:
                 finish();
@@ -94,5 +96,23 @@ public class MainActivity extends AppCompatActivity {
     public void playSound(View v) {
         int sound = soundIds.get(Integer.valueOf((String) v.getTag()));
         soundPool.play(sound, 0.9f, 0.9f, 1, 0, 1);
+    }
+
+    private void showAbout() {
+        StringBuilder sb = new StringBuilder(getString(R.string.app_name));
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
+            sb.append(" v");
+            sb.append(info.versionName);
+            sb.append("\n");
+            sb.append("\n");
+        }
+        catch( PackageManager.NameNotFoundException e) {
+        }
+        sb.append("Copyright © 2016 Sebastian Wolf");
+        sb.append("\n");
+        sb.append("\n");
+        sb.append("released under the GPLv3");
+        Toast.makeText(this, sb.toString(), Toast.LENGTH_LONG).show();
     }
 }
