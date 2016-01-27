@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import de.meonwax.soundboard.R;
@@ -65,7 +66,7 @@ public class FilePickerDialogFragment extends DialogFragment {
             directoryEntryAdapter.clear();
             boolean isRoot = directory.equals(rootDirectory);
             if (!isRoot) {
-                directoryEntryAdapter.add(new DirectoryEntry("..", FileUtils.getParentDirectory(directory.getAbsolutePath()), 0, true));
+                directoryEntryAdapter.add(new DirectoryEntry(DirectoryEntry.PARENT_DIRECTORY_NAME, FileUtils.getParentDirectory(directory.getAbsolutePath()), 0, true));
             }
             for (DirectoryEntry e : entries) {
                 FileUtils.getParentDirectory(e.path);
@@ -92,6 +93,7 @@ public class FilePickerDialogFragment extends DialogFragment {
                 }
                 entries.add(new DirectoryEntry(file.getName(), file.getAbsolutePath(), file.length(), file.isDirectory()));
             }
+            Collections.sort(entries);
             return entries;
         }
         return null;
