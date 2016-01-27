@@ -16,10 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.meonwax.soundboard.file.FilePickerDialogFragment;
+import de.meonwax.soundboard.file.FileUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,6 +63,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onFileAdded(File file) {
+        if (new File(FileUtils.getInternalPath(this, file)).exists()) {
+            Toast.makeText(this, getString(R.string.entry_exists), Toast.LENGTH_LONG).show();
+        } else {
+            FileUtils.copyToInternal(this, file);
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -106,8 +116,7 @@ public class MainActivity extends AppCompatActivity {
             sb.append(info.versionName);
             sb.append("\n");
             sb.append("\n");
-        }
-        catch( PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException e) {
         }
         sb.append("Copyright © 2016 Sebastian Wolf");
         sb.append("\n");

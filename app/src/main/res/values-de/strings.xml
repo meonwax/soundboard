@@ -1,10 +1,10 @@
 <resources>
     <string name="action_new">Neu</string>
     <string name="action_settings">Einstellungen</string>
-    <string name="action_about">Über</string>
+    <string name="action_about">Info</string>
     <string name="action_exit">Beenden</string>
     <string name="cancel">Abbrechen</string>
     <string name="ok">OK</string>
-    <string name="dialog_select_sound">"Sound-Datei auswählen"</string>
     <string name="file_directory">"Verzeichnis"</string>
+    <string name="entry_exists">"Der Eintrag existiert bereits."</string>
 </resources>

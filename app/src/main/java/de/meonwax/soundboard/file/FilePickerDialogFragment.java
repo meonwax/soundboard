@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import de.meonwax.soundboard.MainActivity;
 import de.meonwax.soundboard.R;
 
 public class FilePickerDialogFragment extends DialogFragment {
@@ -53,6 +54,9 @@ public class FilePickerDialogFragment extends DialogFragment {
                     if (addEntries(new File(entry.path))) {
                         dialog.setTitle(entry.path);
                     }
+                } else {
+                    ((MainActivity) (getActivity())).onFileAdded(new File(entry.path));
+                    dismiss();
                 }
             }
         });

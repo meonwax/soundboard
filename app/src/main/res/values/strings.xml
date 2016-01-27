@@ -6,6 +6,6 @@
     <string name="action_exit">Exit</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
-    <string name="dialog_select_sound">"Select sound file"</string>
     <string name="file_directory">"Directory"</string>
+    <string name="entry_exists">"Entry already exists."</string>
 </resources>

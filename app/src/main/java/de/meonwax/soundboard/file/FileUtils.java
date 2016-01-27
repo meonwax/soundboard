@@ -1,6 +1,12 @@
 package de.meonwax.soundboard.file;
 
+import android.content.Context;
+import android.util.Log;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 
 public class FileUtils {
 
@@ -43,5 +49,31 @@ public class FileUtils {
             return file.getName().substring(i + 1);
         }
         return "";
+    }
+
+    public static String getInternalPath(Context context, File file) {
+        return context.getFilesDir() + File.separator + file.getName();
+    }
+
+    public static void copyToInternal(Context context, File file) {
+        FileChannel inChannel = null;
+        FileChannel outChannel = null;
+        try {
+            inChannel = new FileInputStream(file).getChannel();
+            outChannel = context.openFileOutput(file.getName(), Context.MODE_PRIVATE).getChannel();
+            inChannel.transferTo(0, inChannel.size(), outChannel);
+            Log.d(FileUtils.class.getSimpleName(), String.format("Copied %s to %s", file.getAbsolutePath(), getInternalPath(context, file)) );
+        } catch (IOException e) {
+            Log.e(FileUtils.class.getSimpleName(), e.getMessage());
+            try {
+                if (inChannel != null && inChannel.isOpen()) {
+                    inChannel.close();
+                }
+                if (outChannel != null && outChannel.isOpen()) {
+                    outChannel.close();
+                }
+            } catch (IOException e1) {
+            }
+        }
     }
 }
