@@ -10,11 +10,16 @@ import android.widget.AdapterView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.meonwax.soundboard.R;
 
 public class FilePickerDialogFragment extends DialogFragment {
+
+    private final static boolean SHOW_HIDDEN = false;
+
+    private final static String[] EXTENSION_WHITELIST = new String[]{"wav", "mp3", "ogg"};
 
     private DirectoryEntryAdapter directoryEntryAdapter;
 
@@ -77,7 +82,12 @@ public class FilePickerDialogFragment extends DialogFragment {
             List<DirectoryEntry> entries = new ArrayList<>();
             for (File file : directory.listFiles()) {
                 // Ignore hidden files and dirs
-                if (file.getName().startsWith(".")) {
+                if (!SHOW_HIDDEN && file.isHidden()) {
+                    continue;
+                }
+                if (!file.isDirectory() &&
+                        EXTENSION_WHITELIST != null &&
+                        !Arrays.asList(EXTENSION_WHITELIST).contains(FileUtils.getExtension(file).toLowerCase())) {
                     continue;
                 }
                 entries.add(new DirectoryEntry(file.getName(), file.getAbsolutePath(), file.length(), file.isDirectory()));

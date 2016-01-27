@@ -35,4 +35,13 @@ public class FileUtils {
         }
         return Math.round(bytes / 1024f / 1024f / 1024f) + " GB";
     }
+
+    public static String getExtension(File file) {
+        int i = file.getName().lastIndexOf('.');
+        int k = file.getName().lastIndexOf(File.separator);
+        if (i > k) {
+            return file.getName().substring(i + 1);
+        }
+        return "";
+    }
 }
