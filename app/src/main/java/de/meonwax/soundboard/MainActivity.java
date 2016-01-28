@@ -9,6 +9,7 @@ import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import java.util.List;
 
 import de.meonwax.soundboard.file.FilePickerDialogFragment;
 import de.meonwax.soundboard.file.FileUtils;
+import de.meonwax.soundboard.sound.SoundFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,9 +36,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        initSounds();
+
+        // Only initialize if we're not being restored from a previous state
+        if (savedInstanceState == null) {
+            initSoundSystem();
+            initSoundFiles(FileUtils.getInternalFiles(this));
+        }
     }
 
     @Override
@@ -74,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @SuppressWarnings("deprecation")
-    private void initSounds() {
+    private void initSoundSystem() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             AudioAttributes audioAttributes = new AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -87,9 +95,24 @@ public class MainActivity extends AppCompatActivity {
         } else {
             soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 1);
         }
-        soundIds.add(soundPool.load(this, R.raw.bell, 1));
-        soundIds.add(soundPool.load(this, R.raw.can_open, 1));
-        soundIds.add(soundPool.load(this, R.raw.coin, 1));
+    }
+
+    private void initSoundFiles(List<File> files) {
+        if (!files.isEmpty()) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            for (File file : files) {
+                // Load the sound file
+                int soundId = soundPool.load(file.getAbsolutePath(), 1);
+                soundIds.add(soundId);
+                // Add a fragment to the UI
+                SoundFragment fragment = new SoundFragment();
+                Bundle args = new Bundle();
+                args.putString("name", file.getName());
+                fragment.setArguments(args);
+                transaction.add(R.id.sound_container, fragment, String.valueOf(soundId));
+            }
+            transaction.commit();
+        }
     }
 
     private int getRecommendedSampleRate() {

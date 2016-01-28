@@ -21,7 +21,7 @@ public class FilePickerDialogFragment extends DialogFragment {
 
     private final static boolean SHOW_HIDDEN = false;
 
-    private final static String[] EXTENSION_WHITELIST = new String[]{"wav", "mp3", "ogg"};
+    public final static String[] EXTENSION_WHITELIST = new String[]{"wav", "mp3", "ogg"};
 
     private DirectoryEntryAdapter directoryEntryAdapter;
 

@@ -4,9 +4,13 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class FileUtils {
 
@@ -55,6 +59,19 @@ public class FileUtils {
         return context.getFilesDir() + File.separator + file.getName();
     }
 
+    public static List<File> getInternalFiles(Context context) {
+        List<File> files = new ArrayList<>();
+        for (File file : new File(context.getFilesDir().getAbsolutePath()).listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                return Arrays.asList(FilePickerDialogFragment.EXTENSION_WHITELIST).contains(FileUtils.getExtension(file).toLowerCase());
+            }
+        })) {
+            files.add(file);
+        }
+        return files;
+    }
+
     public static void copyToInternal(Context context, File file) {
         FileChannel inChannel = null;
         FileChannel outChannel = null;
@@ -62,7 +79,7 @@ public class FileUtils {
             inChannel = new FileInputStream(file).getChannel();
             outChannel = context.openFileOutput(file.getName(), Context.MODE_PRIVATE).getChannel();
             inChannel.transferTo(0, inChannel.size(), outChannel);
-            Log.d(FileUtils.class.getSimpleName(), String.format("Copied %s to %s", file.getAbsolutePath(), getInternalPath(context, file)) );
+            Log.d(FileUtils.class.getSimpleName(), String.format("Copied %s to %s", file.getAbsolutePath(), getInternalPath(context, file)));
         } catch (IOException e) {
             Log.e(FileUtils.class.getSimpleName(), e.getMessage());
             try {
