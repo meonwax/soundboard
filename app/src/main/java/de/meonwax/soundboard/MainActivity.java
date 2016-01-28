@@ -27,8 +27,6 @@ import de.meonwax.soundboard.sound.SoundFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
-
     private SoundPool soundPool;
     private List<Integer> soundIds = new ArrayList<>();
 
@@ -37,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
 
         // Only initialize if we're not being restored from a previous state
         if (savedInstanceState == null) {
