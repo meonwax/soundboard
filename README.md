@@ -1,4 +1,5 @@
-# ![](logo.png) Soundboard
+![](logo.png)
+# Soundboard
 
 Play short sound samples on your Android device.
 
