@@ -10,9 +10,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import de.meonwax.soundboard.MainActivity;
 import de.meonwax.soundboard.R;
 
 public class SoundFragment extends Fragment implements OnClickListener {
+
+    public final static String ARGUMENT_NAME = "name";
+    public final static String ARGUMENT_SOUND_ID = "soundId";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -22,7 +26,7 @@ public class SoundFragment extends Fragment implements OnClickListener {
 
         // Configure the buttons
         Button playButton = (Button) view.findViewById(R.id.sound_play);
-        playButton.setText(getArguments().getString("name"));
+        playButton.setText(getArguments().getString(ARGUMENT_NAME));
         playButton.setOnClickListener(this);
 
         ImageButton deleteButton = (ImageButton) view.findViewById(R.id.sound_delete);
@@ -35,7 +39,7 @@ public class SoundFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sound_play:
-                Toast.makeText(getContext(), "PLAY!", Toast.LENGTH_SHORT).show();
+                ((MainActivity) getActivity()).playSound(getArguments().getInt(ARGUMENT_SOUND_ID));
                 break;
             case R.id.sound_delete:
                 Toast.makeText(getContext(), "DELETE!", Toast.LENGTH_SHORT).show();

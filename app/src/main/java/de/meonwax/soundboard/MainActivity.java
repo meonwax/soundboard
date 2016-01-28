@@ -14,11 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import de.meonwax.soundboard.file.FilePickerDialogFragment;
@@ -28,14 +26,13 @@ import de.meonwax.soundboard.sound.SoundFragment;
 public class MainActivity extends AppCompatActivity {
 
     private SoundPool soundPool;
-    private List<Integer> soundIds = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         // Only initialize if we're not being restored from a previous state
         if (savedInstanceState == null) {
@@ -100,13 +97,13 @@ public class MainActivity extends AppCompatActivity {
             for (File file : files) {
                 // Load the sound file
                 int soundId = soundPool.load(file.getAbsolutePath(), 1);
-                soundIds.add(soundId);
                 // Add a fragment to the UI
                 SoundFragment fragment = new SoundFragment();
                 Bundle args = new Bundle();
-                args.putString("name", file.getName());
+                args.putString(SoundFragment.ARGUMENT_NAME, file.getName());
+                args.putInt(SoundFragment.ARGUMENT_SOUND_ID, soundId);
                 fragment.setArguments(args);
-                transaction.add(R.id.sound_container, fragment, String.valueOf(soundId));
+                transaction.add(R.id.sound_container, fragment);
             }
             transaction.commit();
         }
@@ -123,9 +120,8 @@ public class MainActivity extends AppCompatActivity {
         return 44100;
     }
 
-    public void playSound(View v) {
-        int sound = soundIds.get(Integer.valueOf((String) v.getTag()));
-        soundPool.play(sound, 0.9f, 0.9f, 1, 0, 1);
+    public void playSound(int id) {
+        soundPool.play(id, 1f, 1f, 1, 0, 1);
     }
 
     private void showAbout() {
