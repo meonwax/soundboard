@@ -3,25 +3,25 @@
 
     <item
         android:id="@+id/action_new"
-        android:icon="@drawable/ic_add_circle_black_24dp"
+        android:icon="@drawable/ic_add_circle_24dp"
         android:title="@string/action_new"
         compat:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_settings"
-        android:icon="@drawable/ic_settings_black_24dp"
+        android:icon="@drawable/ic_settings_24dp"
         android:title="@string/action_settings"
         compat:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_about"
-        android:icon="@drawable/ic_info_black_24dp"
+        android:icon="@drawable/ic_info_24dp"
         android:title="@string/action_about"
         compat:showAsAction="never" />
 
     <item
         android:id="@+id/action_exit"
-        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:icon="@drawable/ic_exit_to_app_24dp"
         android:title="@string/action_exit"
         compat:showAsAction="never" />
 

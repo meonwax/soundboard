@@ -36,10 +36,10 @@ public class DirectoryEntryAdapter extends ArrayAdapter<DirectoryEntry> {
         name.setText(entry.name);
         if (entry.isDirectory) {
             size.setText(getContext().getString(R.string.file_directory));
-            icon.setImageResource(R.drawable.ic_folder_black_24dp);
+            icon.setImageResource(R.drawable.ic_folder_24dp);
         } else {
             size.setText(FileUtils.getSize(entry.size));
-            icon.setImageResource(R.drawable.ic_insert_drive_file_black_24dp);
+            icon.setImageResource(R.drawable.ic_insert_drive_file_24dp);
         }
 
         // Return the completed view to render on screen
