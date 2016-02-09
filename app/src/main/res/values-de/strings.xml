@@ -5,7 +5,8 @@
     <string name="action_exit">Beenden</string>
     <string name="cancel">Abbrechen</string>
     <string name="ok">OK</string>
-    <string name="file_directory">"Verzeichnis"</string>
-    <string name="entry_exists">"Der Eintrag existiert bereits."</string>
-    <string name="error_remove">"Beim Entfernen ist ein Fehler aufgetreten."</string>
+    <string name="file_directory">Verzeichnis</string>
+    <string name="entry_exists">Der Eintrag existiert bereits.</string>
+    <string name="confirm_remove"><![CDATA[<b>%s</b> wirklich entfernen?]]></string>
+    <string name="error_remove">Beim Entfernen ist ein Fehler aufgetreten.</string>
 </resources>

@@ -6,7 +6,8 @@
     <string name="action_exit">Exit</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
-    <string name="file_directory">"Directory"</string>
-    <string name="entry_exists">"Entry already exists."</string>
-    <string name="error_remove">"An error occurred while removing sound."</string>
+    <string name="file_directory">Directory</string>
+    <string name="entry_exists">Entry already exists.</string>
+    <string name="confirm_remove"><![CDATA[Are you sure you want to remove <b>%s</b> ?]]></string>
+    <string name="error_remove">An error occurred while removing sound.</string>
 </resources>

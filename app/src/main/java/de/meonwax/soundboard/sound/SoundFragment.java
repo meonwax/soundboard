@@ -1,7 +1,10 @@
 package de.meonwax.soundboard.sound;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,7 +44,16 @@ public class SoundFragment extends Fragment implements OnClickListener {
                 ((MainActivity) getActivity()).playSound(getArguments().getInt(ARGUMENT_SOUND_ID));
                 break;
             case R.id.sound_delete:
-                ((MainActivity) getActivity()).removeSound(getArguments().getInt(ARGUMENT_SOUND_ID), this);
+                new AlertDialog.Builder(getContext())
+                        .setMessage(Html.fromHtml(getString(R.string.confirm_remove, getArguments().getString(ARGUMENT_NAME))))
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ((MainActivity) getActivity()).removeSound(getArguments().getInt(ARGUMENT_SOUND_ID), SoundFragment.this);
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, null)
+                        .show();
                 break;
         }
     }
