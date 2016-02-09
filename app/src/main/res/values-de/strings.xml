@@ -7,4 +7,5 @@
     <string name="ok">OK</string>
     <string name="file_directory">"Verzeichnis"</string>
     <string name="entry_exists">"Der Eintrag existiert bereits."</string>
+    <string name="error_remove">"Beim Entfernen ist ein Fehler aufgetreten."</string>
 </resources>

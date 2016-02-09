@@ -8,4 +8,5 @@
     <string name="ok">OK</string>
     <string name="file_directory">"Directory"</string>
     <string name="entry_exists">"Entry already exists."</string>
+    <string name="error_remove">"An error occurred while removing sound."</string>
 </resources>

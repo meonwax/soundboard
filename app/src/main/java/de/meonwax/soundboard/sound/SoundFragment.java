@@ -8,7 +8,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import de.meonwax.soundboard.MainActivity;
 import de.meonwax.soundboard.R;
@@ -42,7 +41,7 @@ public class SoundFragment extends Fragment implements OnClickListener {
                 ((MainActivity) getActivity()).playSound(getArguments().getInt(ARGUMENT_SOUND_ID));
                 break;
             case R.id.sound_delete:
-                Toast.makeText(getContext(), "DELETE!", Toast.LENGTH_SHORT).show();
+                ((MainActivity) getActivity()).removeSound(getArguments().getInt(ARGUMENT_SOUND_ID), this);
                 break;
         }
     }
