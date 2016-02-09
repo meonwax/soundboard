@@ -1,6 +1,5 @@
 package de.meonwax.soundboard;
 
-import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.media.AudioAttributes;
@@ -137,16 +136,5 @@ public class MainActivity extends AppCompatActivity {
         sb.append("Copyright © 2016 Sebastian Wolf").append("\n\n");
         sb.append("released under the GPLv3");
         Toast.makeText(this, sb.toString(), Toast.LENGTH_LONG).show();
-    }
-
-    private int getRecommendedSampleRate() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-            String sampleRate = audioManager.getProperty(AudioManager.PROPERTY_OUTPUT_SAMPLE_RATE);
-            if (sampleRate != null) {
-                return Integer.parseInt(sampleRate);
-            }
-        }
-        return 44100;
     }
 }
