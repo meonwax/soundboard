@@ -1,12 +1,24 @@
 # Soundboard
+
 [![Build Status](https://travis-ci.org/meonwax/soundboard.svg?branch=master)](https://travis-ci.org/meonwax/soundboard)
 
 Play short sound samples on your Android device.
 
+## Usage
+
+Select a sound file from your internal or external storage and add it to the sounds list. It will be copied to the internal application folder and can be played on touch.
+
+You can delete the original file at any time. The sound sample will still be available in the application until you decide to delete it.
+
+## Download
+
+[![F-Droid](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Get_it_on_F-Droid.svg/160px-Get_it_on_F-Droid.svg.png)](https://f-droid.org/repository/browse/?fdid=de.meonwax.soundboard "Soundboard on F-Droid")
+
+or grab an APK from [releases on GitHub](https://github.com/meonwax/soundboard/releases)
+
 ## Building
 
-As no binary package currently is available, you have to build the application by yourself.
-The easiest way is to use the lastest [Android Studio](http://developer.android.com/sdk/index.html) along with the Android SDK.
+If you want to build the application yourself, the easiest way is to use the latest [Android Studio](http://developer.android.com/sdk/index.html) along with the Android SDK.
 
 Alternatively you can use the gradle wrapper to build the application.
 
@@ -26,11 +38,11 @@ Switch to application directory and make the gradle wrapper executable:
     cd soundboard
     chmod +x gradlew
 
-To build a debug version, run:
+To build a *debug* version, run:
 
     ./gradlew assembleDebug
 
-To build a release version, run :
+To build a *release* version, run :
 
     ./gradlew assembleRelease
 
