@@ -14,7 +14,7 @@ You can delete the original file at any time. The sound sample will still be ava
 
 [![F-Droid](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Get_it_on_F-Droid.svg/160px-Get_it_on_F-Droid.svg.png)](https://f-droid.org/repository/browse/?fdid=de.meonwax.soundboard "Soundboard on F-Droid")
 
-or grab an APK from [releases on GitHub](https://github.com/meonwax/soundboard/releases)
+or grab an APK from [releases on GitHub](https://github.com/meonwax/soundboard/releases).
 
 ## Building
 

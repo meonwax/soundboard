@@ -8,23 +8,30 @@ import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.meonwax.soundboard.file.FilePickerDialogFragment;
 import de.meonwax.soundboard.file.FileUtils;
-import de.meonwax.soundboard.sound.SoundFragment;
+import de.meonwax.soundboard.sound.Sound;
+import de.meonwax.soundboard.sound.SoundAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
     private SoundPool soundPool;
+
+    private List<Sound> sounds;
+
+    private BaseAdapter soundAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +44,16 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             initSoundSystem();
 
+            // Init sound adapter
+            sounds = new ArrayList<>();
+            soundAdapter = new SoundAdapter(this, sounds);
+            ListView soundList = (ListView) findViewById(R.id.sound_list);
+            soundList.setAdapter(soundAdapter);
+
             // Populate sound files
-            List<File> sounds = FileUtils.getInternalFiles(this);
-            if (!sounds.isEmpty()) {
-                for (File file : sounds) {
+            List<File> soundFiles = FileUtils.getInternalFiles(this);
+            if (!soundFiles.isEmpty()) {
+                for (File file : soundFiles) {
                     addSound(file);
                 }
             }
@@ -98,30 +111,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void addSound(File sound) {
+    private void addSound(File soundFile) {
+
         // Load the sound file
-        int soundId = soundPool.load(sound.getAbsolutePath(), 1);
-        // Add a fragment to the UI
-        SoundFragment fragment = new SoundFragment();
-        Bundle args = new Bundle();
-        args.putString(SoundFragment.ARGUMENT_NAME, sound.getName());
-        args.putInt(SoundFragment.ARGUMENT_SOUND_ID, soundId);
-        fragment.setArguments(args);
-        getSupportFragmentManager().beginTransaction().add(R.id.sound_container, fragment).commit();
+        int soundId = soundPool.load(soundFile.getAbsolutePath(), 1);
+
+        // Create a new sound object and ad it to the adapter
+        sounds.add(new Sound(soundId, soundFile.getName()));
+        soundAdapter.notifyDataSetChanged();
     }
 
     public void playSound(int soundId) {
         soundPool.play(soundId, 1f, 1f, 1, 0, 1);
     }
 
-    public void removeSound(int soundId, Fragment fragment) {
+    public void removeSound(int soundId) {
+
         // Unload from sound pool
         soundPool.unload(soundId);
-        // Remove fragment
-        String fileName = fragment.getArguments().getString(SoundFragment.ARGUMENT_NAME);
-        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+
+        // Remove from adapter
+        Sound sound = sounds.remove(soundId - 1);
+        soundAdapter.notifyDataSetChanged();
+
         // Delete from filesystem
-        if (!new File(FileUtils.getInternalPath(this, new File(fileName))).delete()) {
+        if (!new File(FileUtils.getInternalPath(this, new File(sound.getName()))).delete()) {
             Toast.makeText(this, getString(R.string.error_remove), Toast.LENGTH_LONG).show();
         }
     }
