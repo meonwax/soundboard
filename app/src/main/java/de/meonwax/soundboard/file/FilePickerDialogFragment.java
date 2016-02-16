@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,15 +20,14 @@ import de.meonwax.soundboard.R;
 
 public class FilePickerDialogFragment extends DialogFragment {
 
-    private final static boolean SHOW_HIDDEN = false;
-
     public final static String[] EXTENSION_WHITELIST = new String[]{"wav", "mp3", "ogg"};
 
     private DirectoryEntryAdapter directoryEntryAdapter;
-
+    
     private File rootDirectory;
 
     @Override
+    @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         // Determine root directory to start browsing
@@ -87,7 +87,7 @@ public class FilePickerDialogFragment extends DialogFragment {
             List<DirectoryEntry> entries = new ArrayList<>();
             for (File file : directory.listFiles()) {
                 // Ignore hidden files and dirs
-                if (!SHOW_HIDDEN && file.isHidden()) {
+                if (file.isHidden()) {
                     continue;
                 }
                 if (!file.isDirectory() &&

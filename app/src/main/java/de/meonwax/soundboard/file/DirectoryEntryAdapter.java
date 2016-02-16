@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import de.meonwax.soundboard.R;
 
-public class DirectoryEntryAdapter extends ArrayAdapter<DirectoryEntry> {
+class DirectoryEntryAdapter extends ArrayAdapter<DirectoryEntry> {
 
     public DirectoryEntryAdapter(Context context) {
         super(context, 0);

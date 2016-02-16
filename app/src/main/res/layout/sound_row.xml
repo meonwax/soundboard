@@ -10,9 +10,9 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="4"
+        android:drawableStart="@drawable/ic_play_arrow_24dp"
         android:drawableLeft="@drawable/ic_play_arrow_24dp"
-        android:singleLine="true"
-        android:text="Sound" />
+        android:singleLine="true" />
 
     <ImageButton
         android:id="@+id/sound_delete"

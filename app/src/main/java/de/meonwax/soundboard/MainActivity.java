@@ -28,9 +28,7 @@ import de.meonwax.soundboard.sound.SoundAdapter;
 public class MainActivity extends AppCompatActivity {
 
     private SoundPool soundPool;
-
     private List<Sound> sounds;
-
     private BaseAdapter soundAdapter;
 
     @Override

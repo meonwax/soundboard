@@ -19,9 +19,8 @@ import de.meonwax.soundboard.R;
 
 public class SoundAdapter extends BaseAdapter {
 
-    private Context context;
-
-    private List<Sound> sounds;
+    private final Context context;
+    private final List<Sound> sounds;
 
     public SoundAdapter(Context context, List<Sound> sounds) {
         this.context = context;

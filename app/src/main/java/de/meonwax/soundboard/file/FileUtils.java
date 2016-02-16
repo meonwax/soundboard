@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class FileUtils {
@@ -22,12 +23,7 @@ public class FileUtils {
         if (directoryPath.endsWith(File.separator)) {
             directoryPath = directoryPath.substring(0, directoryPath.lastIndexOf(File.separator));
         }
-        String parent = directoryPath.substring(0, directoryPath.lastIndexOf(File.separator));
-        return parent;
-    }
-
-    public static String getSize(File file) {
-        return getSize(file.length());
+        return directoryPath.substring(0, directoryPath.lastIndexOf(File.separator));
     }
 
     /**
@@ -61,14 +57,12 @@ public class FileUtils {
 
     public static List<File> getInternalFiles(Context context) {
         List<File> files = new ArrayList<>();
-        for (File file : new File(context.getFilesDir().getAbsolutePath()).listFiles(new FileFilter() {
+        Collections.addAll(files, new File(context.getFilesDir().getAbsolutePath()).listFiles(new FileFilter() {
             @Override
             public boolean accept(File file) {
                 return Arrays.asList(FilePickerDialogFragment.EXTENSION_WHITELIST).contains(FileUtils.getExtension(file).toLowerCase());
             }
-        })) {
-            files.add(file);
-        }
+        }));
         return files;
     }
 

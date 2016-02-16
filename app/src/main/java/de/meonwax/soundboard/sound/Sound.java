@@ -2,9 +2,8 @@ package de.meonwax.soundboard.sound;
 
 public class Sound {
 
-    private int id;
-
-    private String name;
+    private final int id;
+    private final String name;
 
     public Sound(int id, String name) {
         this.id = id;

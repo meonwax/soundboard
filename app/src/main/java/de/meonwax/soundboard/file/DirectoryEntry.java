@@ -1,13 +1,15 @@
 package de.meonwax.soundboard.file;
 
-public class DirectoryEntry implements Comparable<DirectoryEntry> {
+import android.support.annotation.NonNull;
+
+class DirectoryEntry implements Comparable<DirectoryEntry> {
 
     public final static String PARENT_DIRECTORY_NAME = "..";
 
-    public String name;
-    public String path;
-    public long size;
-    public boolean isDirectory;
+    public final String name;
+    public final String path;
+    public final long size;
+    public final boolean isDirectory;
 
     public DirectoryEntry(String name, String path, long size, boolean isDirectory) {
         this.name = name;
@@ -17,7 +19,7 @@ public class DirectoryEntry implements Comparable<DirectoryEntry> {
     }
 
     @Override
-    public int compareTo(DirectoryEntry another) {
+    public int compareTo(@NonNull DirectoryEntry another) {
         // Parent directory will always be the first entry
         if (name.equals(PARENT_DIRECTORY_NAME)) {
             return -1;
@@ -25,7 +27,7 @@ public class DirectoryEntry implements Comparable<DirectoryEntry> {
         if ((isDirectory && another.isDirectory) || (!isDirectory && !another.isDirectory)) {
             return name.toLowerCase().compareTo(another.name.toLowerCase());
         }
-        if (isDirectory && !another.isDirectory) {
+        if (isDirectory) {
             return -1;
         }
         return 1;
