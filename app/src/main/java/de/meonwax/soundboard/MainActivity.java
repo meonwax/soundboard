@@ -1,5 +1,7 @@
 package de.meonwax.soundboard;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.media.AudioAttributes;
@@ -7,9 +9,13 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.BaseAdapter;
@@ -26,6 +32,10 @@ import de.meonwax.soundboard.sound.Sound;
 import de.meonwax.soundboard.sound.SoundAdapter;
 
 public class MainActivity extends AppCompatActivity {
+
+    private final static int REQUEST_CODE_ASK_PERMISSIONS = 123;
+
+    private boolean hasRequestedPermissions = false;
 
     private SoundPool soundPool;
     private List<Sound> sounds;
@@ -56,6 +66,44 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (!hasRequestedPermissions) {
+                hasRequestedPermissions = true;
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
+            }
+        }
+        return;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Workaround for bug
+                    // https://code.google.com/p/android-developer-preview/issues/detail?id=2982
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                } else {
+                    new AlertDialog.Builder(this)
+                            .setMessage(Html.fromHtml(getString(R.string.permission_denied, getString(R.string.app_name))))
+                            .setPositiveButton(R.string.ok, null)
+                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    finish();
+                                }
+                            })
+                            .show();
+                }
+                return;
+            }
+        }
+        hasRequestedPermissions = false;
     }
 
     @Override

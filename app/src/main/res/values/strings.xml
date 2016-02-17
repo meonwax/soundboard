@@ -8,6 +8,7 @@
     <string name="file_directory">Directory</string>
     <string name="entry_exists">Entry already exists.</string>
     <string name="no_external_storage">Sound storage is currently not available. Please ensure that your SD Card is accessible and try again.</string>
+    <string name="permission_denied"><![CDATA[<b>%s</b> cannot run when access to the device storage is denied.]]></string>
     <string name="confirm_remove"><![CDATA[Are you sure you want to remove <b>%s</b> ?]]></string>
     <string name="error_remove">An error occurred while removing sound.</string>
 </resources>
