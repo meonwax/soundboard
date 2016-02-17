@@ -6,6 +6,7 @@
     <string name="ok">OK</string>
     <string name="file_directory">Verzeichnis</string>
     <string name="entry_exists">Der Eintrag existiert bereits.</string>
+    <string name="no_external_storage">Der Speicherort der Sounds is momentan nicht verfügbar. Bitte stelle sicher, dass Deine SD-Karte verfügbar ist und versuche es anschließend noch einmal.</string>
     <string name="confirm_remove"><![CDATA[<b>%s</b> wirklich entfernen?]]></string>
     <string name="error_remove">Beim Entfernen ist ein Fehler aufgetreten.</string>
 </resources>

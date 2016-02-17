@@ -2,16 +2,20 @@ package de.meonwax.soundboard.file;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import de.meonwax.soundboard.R;
 
 public class FileUtils {
 
@@ -51,39 +55,53 @@ public class FileUtils {
         return "";
     }
 
-    public static String getInternalPath(Context context, File file) {
-        return context.getFilesDir() + File.separator + file.getName();
+    public static String getExternalPath(Context context, File file) {
+        File externalDir = context.getExternalFilesDir("Sound");
+        if (externalDir == null) {
+            Toast.makeText(context, context.getString(R.string.no_external_storage), Toast.LENGTH_LONG).show();
+            return null;
+        }
+        return externalDir + File.separator + file.getName();
     }
 
-    public static List<File> getInternalFiles(Context context) {
+    public static List<File> getExternalFiles(Context context) {
         List<File> files = new ArrayList<>();
-        Collections.addAll(files, new File(context.getFilesDir().getAbsolutePath()).listFiles(new FileFilter() {
-            @Override
-            public boolean accept(File file) {
-                return Arrays.asList(FilePickerDialogFragment.EXTENSION_WHITELIST).contains(FileUtils.getExtension(file).toLowerCase());
-            }
-        }));
+        File externalDir = context.getExternalFilesDir("Sound");
+        if (externalDir != null) {
+            Collections.addAll(files, new File(externalDir.getAbsolutePath()).listFiles(new FileFilter() {
+                @Override
+                public boolean accept(File file) {
+                    return Arrays.asList(FilePickerDialogFragment.EXTENSION_WHITELIST).contains(FileUtils.getExtension(file).toLowerCase());
+                }
+            }));
+        } else {
+            Toast.makeText(context, context.getString(R.string.no_external_storage), Toast.LENGTH_LONG).show();
+        }
         return files;
     }
 
-    public static void copyToInternal(Context context, File file) {
+    public static void copyToExternal(Context context, File file) {
         FileChannel inChannel = null;
         FileChannel outChannel = null;
-        try {
-            inChannel = new FileInputStream(file).getChannel();
-            outChannel = context.openFileOutput(file.getName(), Context.MODE_PRIVATE).getChannel();
-            inChannel.transferTo(0, inChannel.size(), outChannel);
-            Log.d(FileUtils.class.getSimpleName(), String.format("Copied %s to %s", file.getAbsolutePath(), getInternalPath(context, file)));
-        } catch (IOException e) {
-            Log.e(FileUtils.class.getSimpleName(), e.getMessage());
+        String externalPath = getExternalPath(context, file);
+        if (externalPath != null) {
             try {
-                if (inChannel != null && inChannel.isOpen()) {
-                    inChannel.close();
+                File outputFile = new File(externalPath);
+                inChannel = new FileInputStream(file).getChannel();
+                outChannel = new FileOutputStream(outputFile).getChannel();
+                inChannel.transferTo(0, inChannel.size(), outChannel);
+                Log.d(FileUtils.class.getSimpleName(), String.format("Copied %s to %s", file.getAbsolutePath(), outputFile.getAbsolutePath()));
+            } catch (IOException e) {
+                Log.e(FileUtils.class.getSimpleName(), e.getMessage());
+                try {
+                    if (inChannel != null && inChannel.isOpen()) {
+                        inChannel.close();
+                    }
+                    if (outChannel != null && outChannel.isOpen()) {
+                        outChannel.close();
+                    }
+                } catch (IOException e1) {
                 }
-                if (outChannel != null && outChannel.isOpen()) {
-                    outChannel.close();
-                }
-            } catch (IOException e1) {
             }
         }
     }

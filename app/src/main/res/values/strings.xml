@@ -7,6 +7,7 @@
     <string name="ok">OK</string>
     <string name="file_directory">Directory</string>
     <string name="entry_exists">Entry already exists.</string>
+    <string name="no_external_storage">Sound storage is currently not available. Please ensure that your SD Card is accessible and try again.</string>
     <string name="confirm_remove"><![CDATA[Are you sure you want to remove <b>%s</b> ?]]></string>
     <string name="error_remove">An error occurred while removing sound.</string>
 </resources>

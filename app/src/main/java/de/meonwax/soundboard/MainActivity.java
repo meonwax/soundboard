@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             soundList.setAdapter(soundAdapter);
 
             // Populate sound files
-            List<File> soundFiles = FileUtils.getInternalFiles(this);
+            List<File> soundFiles = FileUtils.getExternalFiles(this);
             if (!soundFiles.isEmpty()) {
                 for (File file : soundFiles) {
                     addSound(file);
@@ -82,10 +82,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onFileAdded(File file) {
-        if (new File(FileUtils.getInternalPath(this, file)).exists()) {
+        String externalPath = FileUtils.getExternalPath(this, file);
+        if (externalPath == null) {
+            return;
+        }
+        if (new File(externalPath).exists()) {
             Toast.makeText(this, getString(R.string.entry_exists), Toast.LENGTH_LONG).show();
         } else {
-            FileUtils.copyToInternal(this, file);
+            FileUtils.copyToExternal(this, file);
             addSound(file);
         }
     }
@@ -130,7 +134,8 @@ public class MainActivity extends AppCompatActivity {
         soundAdapter.notifyDataSetChanged();
 
         // Delete from filesystem
-        if (!new File(FileUtils.getInternalPath(this, new File(sound.getName()))).delete()) {
+        String externalPath = FileUtils.getExternalPath(this, new File(sound.getName()));
+        if (externalPath == null || !new File(externalPath).delete()) {
             Toast.makeText(this, getString(R.string.error_remove), Toast.LENGTH_LONG).show();
         }
     }
