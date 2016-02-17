@@ -6,7 +6,7 @@ Play short sound samples on your Android device.
 
 ## Usage
 
-Select a sound file from your internal or external storage and add it to the sounds list. It will be copied to the internal application folder and can be played on touch.
+Select a sound file from your storage directory and add it to the sounds list. It will be copied to the private application folder and can be played on touch.
 
 You can delete the original file at any time. The sound sample will still be available in the application until you decide to delete it.
 
@@ -50,7 +50,7 @@ After a successful build, the APKs will be located in `app/build/outputs/apk`.
 
 ## Resources
 
-[Launcher icon](https://www.iconfinder.com/icons/916730/music_sound_voice_volume_icon) by DevDesign Gmbh licensed under [Creative Commons (Attribution 3.0 Unported)](http://creativecommons.org/licenses/by/3.0/).
+[Launcher icon](https://www.iconfinder.com/icons/916730/music_sound_voice_volume_icon) by Mohamed Mbarki licensed under [Creative Commons (Attribution 3.0 Unported)](http://creativecommons.org/licenses/by/3.0/).
 
 ## License
 
