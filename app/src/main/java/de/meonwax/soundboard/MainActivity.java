@@ -67,14 +67,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                Toast.makeText(this, getString(R.string.action_settings), Toast.LENGTH_SHORT).show();
-                break;
             case R.id.action_new:
                 DialogFragment filePickerFragment = new FilePickerDialogFragment();
                 filePickerFragment.show(getSupportFragmentManager(), "filePicker");
                 break;
-            case R.id.action_about:
+            case R.id.action_info:
                 showAbout();
                 break;
             case R.id.action_exit:

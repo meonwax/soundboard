@@ -8,15 +8,9 @@
         compat:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_settings"
-        android:icon="@drawable/ic_settings_24dp"
-        android:title="@string/action_settings"
-        compat:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_about"
+        android:id="@+id/action_info"
         android:icon="@drawable/ic_info_24dp"
-        android:title="@string/action_about"
+        android:title="@string/action_info"
         compat:showAsAction="never" />
 
     <item

@@ -1,7 +1,6 @@
 <resources>
     <string name="action_new">Neu</string>
-    <string name="action_settings">Einstellungen</string>
-    <string name="action_about">Info</string>
+    <string name="action_info">Info</string>
     <string name="action_exit">Beenden</string>
     <string name="cancel">Abbrechen</string>
     <string name="ok">OK</string>
