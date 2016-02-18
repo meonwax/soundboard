@@ -45,25 +45,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        init();
+    }
 
-        // Only initialize if we're not being restored from a previous state
-        if (savedInstanceState == null) {
-            initSoundSystem();
+    private void init() {
+        initSoundSystem();
 
-            // Init sound adapter
-            sounds = new ArrayList<>();
-            soundAdapter = new SoundAdapter(this, sounds);
-            ListView soundList = (ListView) findViewById(R.id.sound_list);
-            soundList.setAdapter(soundAdapter);
+        // Init sound adapter
+        sounds = new ArrayList<>();
+        soundAdapter = new SoundAdapter(this, sounds);
+        ListView soundList = (ListView) findViewById(R.id.sound_list);
+        soundList.setAdapter(soundAdapter);
 
-            // Populate sound files
-            List<File> soundFiles = FileUtils.getExternalFiles(this);
-            if (!soundFiles.isEmpty()) {
-                for (File file : soundFiles) {
-                    addSound(file);
-                }
+        // Populate sound files
+        List<File> soundFiles = FileUtils.getExternalFiles(this);
+        if (!soundFiles.isEmpty()) {
+            for (File file : soundFiles) {
+                addSound(file);
             }
         }
     }
