@@ -1,13 +1,16 @@
 <resources>
-    <string name="action_new">Neu</string>
-    <string name="action_info">Info</string>
-    <string name="action_exit">Beenden</string>
-    <string name="cancel">Abbrechen</string>
     <string name="ok">OK</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="action_new">Neu</string>
+    <string name="action_about">Info</string>
+    <string name="action_exit">Beenden</string>
     <string name="file_directory">Verzeichnis</string>
-    <string name="entry_exists">Der Eintrag existiert bereits.</string>
-    <string name="no_external_storage">Der Speicherort der Sounds is momentan nicht verfügbar. Bitte stelle sicher, dass Deine SD-Karte verfügbar ist und versuche es anschließend noch einmal.</string>
-    <string name="permission_denied"><![CDATA[<b>%s</b> kann ohne erlaubten Zugriff auf den Medienspeicher nicht ausgeführt werden.]]></string>
     <string name="confirm_remove"><![CDATA[<b>%s</b> wirklich entfernen?]]></string>
+    <string name="error_entry_exists">Der Eintrag existiert bereits.</string>
+    <string name="error_no_external_storage">Der Speicherort der Sounds is momentan nicht verfügbar. Bitte stelle sicher, dass Deine SD-Karte verfügbar ist und versuche es anschließend noch einmal.</string>
+    <string name="error_permission_denied"><![CDATA[<b>%s</b> kann ohne erlaubten Zugriff auf den Medienspeicher nicht ausgeführt werden.]]></string>
     <string name="error_remove">Beim Entfernen ist ein Fehler aufgetreten.</string>
+    <string name="about_copyright_label">Copyright</string>
+    <string name="about_license_label">Lizenz</string>
+    <string name="about_source_label">Quelltext</string>
 </resources>

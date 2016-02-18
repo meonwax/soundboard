@@ -2,7 +2,7 @@ package de.meonwax.soundboard;
 
 import android.Manifest;
 import android.content.DialogInterface;
-import android.content.pm.PackageInfo;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     android.os.Process.killProcess(android.os.Process.myPid());
                 } else {
                     new AlertDialog.Builder(this)
-                            .setMessage(Html.fromHtml(getString(R.string.permission_denied, getString(R.string.app_name))))
+                            .setMessage(Html.fromHtml(getString(R.string.error_permission_denied, getString(R.string.app_name))))
                             .setPositiveButton(R.string.ok, null)
                             .setOnDismissListener(new DialogInterface.OnDismissListener() {
                                 @Override
@@ -119,7 +119,8 @@ public class MainActivity extends AppCompatActivity {
                 filePickerFragment.show(getSupportFragmentManager(), "filePicker");
                 break;
             case R.id.action_info:
-                showAbout();
+                Intent intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
                 break;
             case R.id.action_exit:
                 finish();
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         if (new File(externalPath).exists()) {
-            Toast.makeText(this, getString(R.string.entry_exists), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.error_entry_exists), Toast.LENGTH_LONG).show();
         } else {
             FileUtils.copyToExternal(this, file);
             addSound(file);
@@ -185,17 +186,5 @@ public class MainActivity extends AppCompatActivity {
         if (externalPath == null || !new File(externalPath).delete()) {
             Toast.makeText(this, getString(R.string.error_remove), Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void showAbout() {
-        StringBuilder sb = new StringBuilder(getString(R.string.app_name));
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
-            sb.append(" v").append(info.versionName).append("\n\n");
-        } catch (PackageManager.NameNotFoundException e) {
-        }
-        sb.append("Copyright © 2016 Sebastian Wolf").append("\n\n");
-        sb.append("released under the GPLv3");
-        Toast.makeText(this, sb.toString(), Toast.LENGTH_LONG).show();
     }
 }

@@ -58,7 +58,7 @@ public class FileUtils {
     public static String getExternalPath(Context context, File file) {
         File externalDir = context.getExternalFilesDir("Sound");
         if (externalDir == null) {
-            Toast.makeText(context, context.getString(R.string.no_external_storage), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.error_no_external_storage), Toast.LENGTH_LONG).show();
             return null;
         }
         return externalDir + File.separator + file.getName();
@@ -75,7 +75,7 @@ public class FileUtils {
                 }
             }));
         } else {
-            Toast.makeText(context, context.getString(R.string.no_external_storage), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.error_no_external_storage), Toast.LENGTH_LONG).show();
         }
         return files;
     }
