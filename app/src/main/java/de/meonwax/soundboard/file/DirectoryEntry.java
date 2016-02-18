@@ -2,6 +2,8 @@ package de.meonwax.soundboard.file;
 
 import android.support.annotation.NonNull;
 
+import java.util.Locale;
+
 class DirectoryEntry implements Comparable<DirectoryEntry> {
 
     public final static String PARENT_DIRECTORY_NAME = "..";
@@ -25,7 +27,7 @@ class DirectoryEntry implements Comparable<DirectoryEntry> {
             return -1;
         }
         if ((isDirectory && another.isDirectory) || (!isDirectory && !another.isDirectory)) {
-            return name.toLowerCase().compareTo(another.name.toLowerCase());
+            return name.toLowerCase(Locale.US).compareTo(another.name.toLowerCase(Locale.US));
         }
         if (isDirectory) {
             return -1;

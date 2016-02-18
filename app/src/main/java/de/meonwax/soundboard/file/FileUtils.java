@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import de.meonwax.soundboard.R;
 
@@ -71,7 +72,7 @@ public class FileUtils {
             Collections.addAll(files, new File(externalDir.getAbsolutePath()).listFiles(new FileFilter() {
                 @Override
                 public boolean accept(File file) {
-                    return Arrays.asList(FilePickerDialogFragment.EXTENSION_WHITELIST).contains(FileUtils.getExtension(file).toLowerCase());
+                    return Arrays.asList(FilePickerDialogFragment.EXTENSION_WHITELIST).contains(FileUtils.getExtension(file).toLowerCase(Locale.US));
                 }
             }));
         } else {
@@ -100,7 +101,7 @@ public class FileUtils {
                     if (outChannel != null && outChannel.isOpen()) {
                         outChannel.close();
                     }
-                } catch (IOException e1) {
+                } catch (IOException ignored) {
                 }
             }
         }

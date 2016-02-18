@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import de.meonwax.soundboard.MainActivity;
 import de.meonwax.soundboard.R;
@@ -92,7 +93,7 @@ public class FilePickerDialogFragment extends DialogFragment {
                 }
                 if (!file.isDirectory() &&
                         EXTENSION_WHITELIST != null &&
-                        !Arrays.asList(EXTENSION_WHITELIST).contains(FileUtils.getExtension(file).toLowerCase())) {
+                        !Arrays.asList(EXTENSION_WHITELIST).contains(FileUtils.getExtension(file).toLowerCase(Locale.US))) {
                     continue;
                 }
                 entries.add(new DirectoryEntry(file.getName(), file.getAbsolutePath(), file.length(), file.isDirectory()));

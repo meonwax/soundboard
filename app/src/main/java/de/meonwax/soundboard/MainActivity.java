@@ -1,14 +1,14 @@
 package de.meonwax.soundboard;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
@@ -30,6 +30,7 @@ import de.meonwax.soundboard.file.FilePickerDialogFragment;
 import de.meonwax.soundboard.file.FileUtils;
 import de.meonwax.soundboard.sound.Sound;
 import de.meonwax.soundboard.sound.SoundAdapter;
+import de.meonwax.soundboard.sound.SoundPoolBuilder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        initSoundSystem();
+        // Create sound pool
+        soundPool = SoundPoolBuilder.build();
 
         // Init sound adapter
         sounds = new ArrayList<>();
@@ -70,17 +72,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        // Check for runtime permissions on supported devices
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            checkForPermission();
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void checkForPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             if (!hasRequestedPermissions) {
                 hasRequestedPermissions = true;
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_ASK_PERMISSIONS);
             }
         }
-        return;
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    @TargetApi(Build.VERSION_CODES.M)
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CODE_ASK_PERMISSIONS: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -139,22 +149,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             FileUtils.copyToExternal(this, file);
             addSound(file);
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    private void initSoundSystem() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .setUsage(AudioAttributes.USAGE_GAME)
-                    .build();
-            soundPool = new SoundPool.Builder()
-                    .setMaxStreams(2)
-                    .setAudioAttributes(audioAttributes)
-                    .build();
-        } else {
-            soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 1);
         }
     }
 
