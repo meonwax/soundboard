@@ -11,6 +11,9 @@
     <string name="error_no_external_storage">Sound storage is currently not available. Please ensure that your SD Card is accessible and try again.</string>
     <string name="error_permission_denied"><![CDATA[<b>%s</b> cannot run when access to the device storage is denied.]]></string>
     <string name="error_remove">An error occurred while removing sound.</string>
+    <string name="about_description_text">Play short sound samples on your Android device.</string>
+    <string name="about_usage_label">Usage</string>
+    <string name="about_usage_text">Select a sound file from your storage directory and add it to the sounds list. It will be copied to the private application folder and can be played on touch.\n\nYou can delete the original file at any time. The sound sample will still be available in the application until you decide to delete it.</string>
     <string name="about_copyright_label">Copyright</string>
     <string name="about_copyright_text" translatable="false">© 2016 Sebastian Wolf</string>
     <string name="about_license_label">License</string>

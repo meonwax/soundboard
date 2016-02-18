@@ -10,6 +10,9 @@
     <string name="error_no_external_storage">Der Speicherort der Sounds is momentan nicht verfügbar. Bitte stelle sicher, dass Deine SD-Karte verfügbar ist und versuche es anschließend noch einmal.</string>
     <string name="error_permission_denied"><![CDATA[<b>%s</b> kann ohne erlaubten Zugriff auf den Medienspeicher nicht ausgeführt werden.]]></string>
     <string name="error_remove">Beim Entfernen ist ein Fehler aufgetreten.</string>
+    <string name="about_description_text">Lass kurze Sound-Samples auf deinem Android Gerät ertönen.</string>
+    <string name="about_usage_label">Anleitung</string>
+    <string name="about_usage_text">Wähle eine Audio-Datei aus Deinem Medienspeicher und füge der Liste einen neuen Sound hinzu. Die Datei wird in den internen Anwendungsordner kopiert und kann einfach per Touch abgespielt werden.\n\nDu kannst die original Datei jederzeit löschen. Der Sound bleibt so lange abspielbar, bis Du ihn aus der Liste entfernst.</string>
     <string name="about_copyright_label">Copyright</string>
     <string name="about_license_label">Lizenz</string>
     <string name="about_source_label">Quelltext</string>
