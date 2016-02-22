@@ -43,7 +43,7 @@ public class SoundAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.sound_row, parent, false);
@@ -66,13 +66,13 @@ public class SoundAdapter extends BaseAdapter {
             public void onClick(View v) {
                 new AlertDialog.Builder(context)
                         .setMessage(Html.fromHtml(context.getString(R.string.confirm_remove, sound.getName())))
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ((MainActivity) context).removeSound(sound.getId());
+                                ((MainActivity) context).removeSound(position);
                             }
                         })
-                        .setNegativeButton(R.string.cancel, null)
+                        .setNegativeButton(R.string.button_cancel, null)
                         .show();
             }
         });

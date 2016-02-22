@@ -2,30 +2,31 @@ package de.meonwax.soundboard.file;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import de.meonwax.soundboard.MainActivity;
 import de.meonwax.soundboard.R;
 
 public class FilePickerDialogFragment extends DialogFragment {
 
-    public final static String[] EXTENSION_WHITELIST = new String[]{"wav", "mp3", "ogg"};
-
     private DirectoryEntryAdapter directoryEntryAdapter;
-    
+
     private File rootDirectory;
+
+    private File currentDirectory;
 
     @Override
     @NonNull
@@ -42,7 +43,13 @@ public class FilePickerDialogFragment extends DialogFragment {
 
         // Build the dialog
         final AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setNegativeButton(R.string.cancel, null)
+                .setNegativeButton(R.string.button_cancel, null)
+                .setPositiveButton("Add directory", new OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((MainActivity) (getActivity())).onDirectoryAdded(currentDirectory);
+                    }
+                })
                 .setTitle(rootDirectory.getAbsolutePath())
                 .setAdapter(directoryEntryAdapter, null)
                 .create();
@@ -56,7 +63,11 @@ public class FilePickerDialogFragment extends DialogFragment {
                         dialog.setTitle(entry.path);
                     }
                 } else {
-                    ((MainActivity) (getActivity())).onFileAdded(new File(entry.path));
+                    if (!FileUtils.existsExternalFile(getContext(), entry.name)) {
+                        ((MainActivity) (getActivity())).onFileAdded(new File(entry.path));
+                    } else {
+                        Toast.makeText(getContext(), getString(R.string.error_entry_exists), Toast.LENGTH_LONG).show();
+                    }
                     dismiss();
                 }
             }
@@ -66,6 +77,7 @@ public class FilePickerDialogFragment extends DialogFragment {
     }
 
     private boolean addEntries(File directory) {
+        currentDirectory = directory;
         List<DirectoryEntry> entries = readDirectory(directory);
         if (entries != null) {
             directoryEntryAdapter.clear();
@@ -91,9 +103,7 @@ public class FilePickerDialogFragment extends DialogFragment {
                 if (file.isHidden()) {
                     continue;
                 }
-                if (!file.isDirectory() &&
-                        EXTENSION_WHITELIST != null &&
-                        !Arrays.asList(EXTENSION_WHITELIST).contains(FileUtils.getExtension(file).toLowerCase(Locale.US))) {
+                if (!file.isDirectory() && !FileUtils.isWhitelisted(file)) {
                     continue;
                 }
                 entries.add(new DirectoryEntry(file.getName(), file.getAbsolutePath(), file.length(), file.isDirectory()));

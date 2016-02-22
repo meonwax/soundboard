@@ -20,6 +20,8 @@ import de.meonwax.soundboard.R;
 
 public class FileUtils {
 
+    private final static String[] EXTENSION_WHITELIST = new String[]{"wav", "mp3", "ogg"};
+
     /**
      * Returns the absolute path of the parent directory.
      * If the path points to a file instead of a directory, its containing directory is returned.
@@ -56,13 +58,21 @@ public class FileUtils {
         return "";
     }
 
+    public static boolean isWhitelisted(File file) {
+        return EXTENSION_WHITELIST != null && Arrays.asList(EXTENSION_WHITELIST).contains(getExtension(file).toLowerCase(Locale.US));
+    }
+
     public static String getExternalPath(Context context, File file) {
+        return getExternalPath(context, file.getName());
+    }
+
+    public static String getExternalPath(Context context, String fileName) {
         File externalDir = context.getExternalFilesDir("Sound");
         if (externalDir == null) {
             Toast.makeText(context, context.getString(R.string.error_no_external_storage), Toast.LENGTH_LONG).show();
             return null;
         }
-        return externalDir + File.separator + file.getName();
+        return externalDir + File.separator + fileName;
     }
 
     public static List<File> getExternalFiles(Context context) {
@@ -72,13 +82,17 @@ public class FileUtils {
             Collections.addAll(files, new File(externalDir.getAbsolutePath()).listFiles(new FileFilter() {
                 @Override
                 public boolean accept(File file) {
-                    return Arrays.asList(FilePickerDialogFragment.EXTENSION_WHITELIST).contains(FileUtils.getExtension(file).toLowerCase(Locale.US));
+                    return isWhitelisted(file);
                 }
             }));
         } else {
             Toast.makeText(context, context.getString(R.string.error_no_external_storage), Toast.LENGTH_LONG).show();
         }
         return files;
+    }
+
+    public static boolean existsExternalFile(Context context, String fileName) {
+        return new File(FileUtils.getExternalPath(context, fileName)).exists();
     }
 
     public static void copyToExternal(Context context, File file) {

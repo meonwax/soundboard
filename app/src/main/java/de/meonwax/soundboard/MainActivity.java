@@ -18,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SoundPool soundPool;
     private List<Sound> sounds;
-    private BaseAdapter soundAdapter;
+    private SoundAdapter soundAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     new AlertDialog.Builder(this)
                             .setMessage(Html.fromHtml(getString(R.string.error_permission_denied, getString(R.string.app_name))))
-                            .setPositiveButton(R.string.ok, null)
+                            .setPositiveButton(R.string.button_ok, null)
                             .setOnDismissListener(new DialogInterface.OnDismissListener() {
                                 @Override
                                 public void onDismiss(DialogInterface dialog) {
@@ -139,17 +138,28 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onFileAdded(File file) {
-        String externalPath = FileUtils.getExternalPath(this, file);
-        if (externalPath == null) {
-            return;
+    public void onDirectoryAdded(File directory) {
+        int fileCount = 0;
+        if (directory != null) {
+            for (File file : directory.listFiles()) {
+                if (onFileAdded(file)) {
+                    fileCount++;
+                }
+            }
         }
-        if (new File(externalPath).exists()) {
-            Toast.makeText(this, getString(R.string.error_entry_exists), Toast.LENGTH_LONG).show();
-        } else {
+        Toast.makeText(this, getString(R.string.import_directory_info, fileCount), Toast.LENGTH_LONG).show();
+    }
+
+    public boolean onFileAdded(File file) {
+        String externalPath = FileUtils.getExternalPath(this, file);
+        if (externalPath != null &&
+                !FileUtils.existsExternalFile(this, file.getName()) &&
+                FileUtils.isWhitelisted(file)) {
             FileUtils.copyToExternal(this, file);
             addSound(file);
+            return true;
         }
+        return false;
     }
 
     private void addSound(File soundFile) {
@@ -157,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         // Load the sound file
         int soundId = soundPool.load(soundFile.getAbsolutePath(), 1);
 
-        // Create a new sound object and ad it to the adapter
+        // Create a new sound object and add it to the adapter
         sounds.add(new Sound(soundId, soundFile.getName()));
         soundAdapter.notifyDataSetChanged();
     }
@@ -166,14 +176,14 @@ public class MainActivity extends AppCompatActivity {
         soundPool.play(soundId, 1f, 1f, 1, 0, 1);
     }
 
-    public void removeSound(int soundId) {
-
-        // Unload from sound pool
-        soundPool.unload(soundId);
+    public void removeSound(int position) {
 
         // Remove from adapter
-        Sound sound = sounds.remove(soundId - 1);
+        Sound sound = sounds.remove(position);
         soundAdapter.notifyDataSetChanged();
+
+        // Unload from sound pool
+        soundPool.unload(sound.getId());
 
         // Delete from filesystem
         String externalPath = FileUtils.getExternalPath(this, new File(sound.getName()));
