@@ -44,7 +44,7 @@ public class FilePickerDialogFragment extends DialogFragment {
         // Build the dialog
         final AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setNegativeButton(R.string.button_cancel, null)
-                .setPositiveButton("Add directory", new OnClickListener() {
+                .setPositiveButton(getString(R.string.button_import_directory), new OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ((MainActivity) (getActivity())).onDirectoryAdded(currentDirectory);
@@ -63,10 +63,10 @@ public class FilePickerDialogFragment extends DialogFragment {
                         dialog.setTitle(entry.path);
                     }
                 } else {
-                    if (!FileUtils.existsExternalFile(getContext(), entry.name)) {
-                        ((MainActivity) (getActivity())).onFileAdded(new File(entry.path));
-                    } else {
+                    if (FileUtils.existsExternalFile(getContext(), entry.name)) {
                         Toast.makeText(getContext(), getString(R.string.error_entry_exists), Toast.LENGTH_LONG).show();
+                    } else {
+                        ((MainActivity) (getActivity())).onFileAdded(new File(entry.path));
                     }
                     dismiss();
                 }

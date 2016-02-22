@@ -49,7 +49,11 @@ public class FileUtils {
         return Math.round(bytes / 1024f / 1024f / 1024f) + " GB";
     }
 
-    public static String getExtension(File file) {
+    public static boolean isWhitelisted(File file) {
+        return EXTENSION_WHITELIST != null && Arrays.asList(EXTENSION_WHITELIST).contains(getExtension(file).toLowerCase(Locale.US));
+    }
+
+    private static String getExtension(File file) {
         int i = file.getName().lastIndexOf('.');
         int k = file.getName().lastIndexOf(File.separator);
         if (i > k) {
@@ -58,15 +62,11 @@ public class FileUtils {
         return "";
     }
 
-    public static boolean isWhitelisted(File file) {
-        return EXTENSION_WHITELIST != null && Arrays.asList(EXTENSION_WHITELIST).contains(getExtension(file).toLowerCase(Locale.US));
-    }
-
     public static String getExternalPath(Context context, File file) {
         return getExternalPath(context, file.getName());
     }
 
-    public static String getExternalPath(Context context, String fileName) {
+    private static String getExternalPath(Context context, String fileName) {
         File externalDir = context.getExternalFilesDir("Sound");
         if (externalDir == null) {
             Toast.makeText(context, context.getString(R.string.error_no_external_storage), Toast.LENGTH_LONG).show();
@@ -92,7 +92,8 @@ public class FileUtils {
     }
 
     public static boolean existsExternalFile(Context context, String fileName) {
-        return new File(FileUtils.getExternalPath(context, fileName)).exists();
+        String externalPath = FileUtils.getExternalPath(context, fileName);
+        return (externalPath != null && new File(externalPath).exists());
     }
 
     public static void copyToExternal(Context context, File file) {
