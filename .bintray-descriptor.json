@@ -5,7 +5,7 @@
         "subject": "meonwax"
     },
     "version": {
-        "name": "nightly",
+        "name": "snaphot",
         "desc": "This is a snaphot build",
         "released": "snaphot",
         "attributes": [
@@ -21,7 +21,7 @@
     },
     "files": [
         {
-            "includePattern": "app/build/outputs/apk/app-release-unsigned\\.apk)",
+            "includePattern": "app/build/outputs/apk/app-release-unsigned\.apk)",
             "uploadPattern": "soundboard-snapshot.apk"
         }
     ],
