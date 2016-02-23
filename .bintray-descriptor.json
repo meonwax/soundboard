@@ -5,24 +5,13 @@
         "subject": "meonwax"
     },
     "version": {
-        "name": "snaphot",
-        "desc": "This is a snaphot build",
-        "released": "snaphot",
-        "attributes": [
-            {
-                "name": "VerAtt1",
-                "values": [
-                    "2015-01-01T19:43:37+0100"
-                ],
-                "type": "date"
-            }
-        ],
-        "gpgSign": false
+        "name": "snapshot",
+        "desc": "This is a snaphot build"
     },
     "files": [
         {
-            "includePattern": "app/build/outputs/apk/app-release-unsigned\.apk)",
-            "uploadPattern": "soundboard-snapshot.apk"
+            "includePattern": "app/build/outputs/apk/(.*\\.apk)",
+            "uploadPattern": "$1"
         }
     ],
     "publish": true
