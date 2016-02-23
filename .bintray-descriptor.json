@@ -10,8 +10,11 @@
     },
     "files": [
         {
-            "includePattern": "app/build/outputs/apk/(.*\\.apk)",
-            "uploadPattern": "$1"
+            "includePattern": "app/build/outputs/apk/(app-release-unsigned\\.apk)",
+            "uploadPattern": "soundboard-snapshot-$TRAVIS_COMMIT\\.apk",
+            "matrixParams": {
+                "override": 1
+            }
         }
     ],
     "publish": true
