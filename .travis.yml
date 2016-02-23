@@ -1,9 +1,14 @@
 language: android
 jdk: oraclejdk8
-
 android:
   components:
-    - tools
-    - android-23
-    - build-tools-23.0.2
-    - extra-android-m2repository
+  - tools
+  - android-23
+  - build-tools-23.0.2
+  - extra-android-m2repository
+deploy:
+  provider: bintray
+  file: ".bintray-descriptor.json"
+  user: meonwax
+  key:
+    secure: dU+eSO4JfCeTFh2e8+v0J6ffhhhRE/fKiz8LzkIbIFk8TjjynY3DLuLjDJTGTykoE2jkdU4gUOOp7mhdjVOxVxNZAexuuUx35OIiBdO4CCfKy7uJQtsTbXdVnMVgK8lyphFAodfvSnKky0Zz08U4cQ15wKKSQFISHJC2OlacgNskJoLsZCk+FjI9pOfW7arE8cFCMQU+E0ZDm0ejD/mcGflWW5fmIyOYZAFn9xHnwbdwM7C26UwYo4qHS3IBouJZa0ziannZZY4vlKaw9VLcoJzpaxgY/ddlRgCqdW5A9GCV0eWfCd1ZmRRpzxGmTW3wb+rGPPVDGbk1w7uC0VSiXVB8WSrPFURWhwW36lejw+pNQkY/LPbizg+71ovIuB8xIxBMJ94q6d1wQThrX4zgYmVPHxu1+yY9v8DlJMvddb2YMxKh3OcqASEccKsidgrBaPU2Lquok2D9uezZetv5nVpgzGhy5JB5OiylZXx0CYMX8pNh4+dSmh6ZlFHtl1Qhwu3fUJbmDtOZXlDmjRbRoGF3vu1Qi6b+MbsqgVf3NVaCoW4kOjaF/B9gwQaX9hd7xrQhWe7Z3rPw+OuIq8oJEZ4bSb+7gGpa9z28KosauSUvSP7z3iujbaMWmDZum6UGHBCBGkmlic8jH5rqK52CnDKqVukybW4wCYGLm5B26z4=
