@@ -42,11 +42,12 @@ To build a *debug* version, run:
 
     ./gradlew assembleDebug
 
-To build a *release* version, run :
+To build a *release* version, you first have to alter the settings for accessing your keystore in the `app/gradle.properties` file.
+Then run
 
     ./gradlew assembleRelease
 
-After a successful build, the APKs will be located in `app/build/outputs/apk`.
+After a successful build, the (signed) APKs will be located in `app/build/outputs/apk`.
 
 ## Resources
 
