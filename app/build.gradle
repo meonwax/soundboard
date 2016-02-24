@@ -11,8 +11,19 @@ android {
         versionCode 4
         versionName "0.9.3"
     }
+    signingConfigs {
+        release {
+            // @See gradle.properties
+            storeFile file(releaseKeyStore)
+            storePassword releaseKeyStorePassword
+            keyAlias releaseKeyAlias
+            keyPassword releaseKeyAliasPassword
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
