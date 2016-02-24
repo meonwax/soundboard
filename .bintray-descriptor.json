@@ -5,13 +5,13 @@
         "subject": "meonwax"
     },
     "version": {
-        "name": "snapshot",
-        "desc": "This is a snaphot build"
+        "name": "snapshot-${TRAVIS_COMMIT}",
+        "desc": "This is a snapshot build"
     },
     "files": [
         {
             "includePattern": "app/build/outputs/apk/(app-release-unsigned\\.apk)",
-            "uploadPattern": "soundboard-snapshot-${TRAVIS_COMMIT}.apk",
+            "uploadPattern": "soundboard-snapshot.apk",
             "matrixParams": {
                 "override": 1
             }
