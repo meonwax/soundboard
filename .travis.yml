@@ -19,6 +19,7 @@ android:
 script: ./gradlew assembleDebug check
 
 after_success:
-  - "export FILENAME=soundboard-snapshot-${TRAVIS_COMMIT}.apk"
+  - "export SHORT_HASH=$(echo $TRAVIS_COMMIT | head -c 8)"
+  - "export FILENAME=soundboard-snapshot-${SHORT_HASH}.apk"
   - "cp app/build/outputs/apk/app-debug.apk ${FILENAME}"
   - "curl -F filedata=@${FILENAME} https://meonwax.de/soundboard/releases/"
