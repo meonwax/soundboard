@@ -12,9 +12,13 @@ You can delete the original file at any time. The sound sample will still be ava
 
 ## Download
 
-[![F-Droid](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Get_it_on_F-Droid.svg/160px-Get_it_on_F-Droid.svg.png)](https://f-droid.org/repository/browse/?fdid=de.meonwax.soundboard "Soundboard on F-Droid")
+There are several ways of getting a compiled binary version of Soundboard:
 
-or grab an APK from [releases on GitHub](https://github.com/meonwax/soundboard/releases).
+* [![F-Droid](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Get_it_on_F-Droid.svg/160px-Get_it_on_F-Droid.svg.png)](https://f-droid.org/repository/browse/?fdid=de.meonwax.soundboard "Soundboard on F-Droid")
+
+* Download a bleeding edge snapshot build from my [private Repository](https://meonwax.de/soundboard/releases). As these snapshots are always compiled from the repository HEAD, they could be unstable or filled with bugs. The snapshots packages are signed with a *debug key* which can change occasionally. Be aware of that.
+
+* Grab an APK from [releases on GitHub](https://github.com/meonwax/soundboard/releases). These are compiled by me from the same sources as the F-Droid releases and should be stable.
 
 ## Building
 
@@ -43,7 +47,7 @@ To build a *debug* version, run:
     ./gradlew assembleDebug
 
 To build a *release* version, you first have to alter the settings for accessing your keystore in the `app/gradle.properties` file.
-Then run
+Then run:
 
     ./gradlew assembleRelease
 
