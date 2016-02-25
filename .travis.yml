@@ -1,6 +1,6 @@
-#-------------------
+# ------------------
 # Travis CI settings
-#-------------------
+# ------------------
 # Test changes of this .travis.yml config before submitting them:
 # https://lint.travis-ci.org
 # ---------------------------------------------------------------
@@ -19,6 +19,6 @@ android:
 script: ./gradlew assembleDebug check
 
 after_success:
-  "export FILENAME=soundboard-snapshot-${TRAVIS_COMMIT}.apk"
-  "cp app/build/outputs/apk/app-debug.apk ${FILENAME}"
-  "curl -F filedata=@${FILENAME} https://meonwax.de/soundboard/releases/"
+  - "export FILENAME=soundboard-snapshot-${TRAVIS_COMMIT}.apk"
+  - "cp app/build/outputs/apk/app-debug.apk ${FILENAME}"
+  - "curl -F filedata=@${FILENAME} https://meonwax.de/soundboard/releases/"
