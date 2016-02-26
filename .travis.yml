@@ -26,4 +26,4 @@ after_success:
   - "export SHORT_HASH=$(echo $TRAVIS_COMMIT | head -c 7)"
   - "export FILENAME=soundboard-snapshot-${SHORT_HASH}.apk"
   - "cp app/build/outputs/apk/app-debug.apk ${FILENAME}"
-  - "curl --user ${AUTH} -F filedata=@${FILENAME} https://meonwax.de/soundboard/releases/"
+  - "curl --user ${AUTH} -F filedata=@${FILENAME} https://meonwax.de/soundboard/snapshots/"
