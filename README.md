@@ -16,7 +16,7 @@ There are several ways of getting a compiled binary version of Soundboard:
 
 * [![F-Droid](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Get_it_on_F-Droid.svg/160px-Get_it_on_F-Droid.svg.png)](https://f-droid.org/repository/browse/?fdid=de.meonwax.soundboard "Soundboard on F-Droid")
 
-* Download a bleeding edge snapshot build from my [private Repository](https://meonwax.de/soundboard/releases). As these snapshots are always compiled from the repository HEAD, they could be unstable or filled with bugs. The snapshots packages are signed with a *debug key* which can change occasionally. Be aware of that.
+* Download a bleeding edge snapshot build from my [private repository](https://meonwax.de/soundboard/snapshots). As these snapshots are always compiled from the repository HEAD, they could be unstable or filled with bugs. The snapshots packages are signed with a *debug key* which can change occasionally. Be aware of that.
 
 * Grab an APK from [releases on GitHub](https://github.com/meonwax/soundboard/releases). These are compiled by me from the same sources as the F-Droid releases and should be stable.
 
@@ -29,7 +29,7 @@ Alternatively you can use the gradle wrapper to build the application.
 You will at least need to install the following SDK packages:
 
 * Latest versions of Android SDK Tools and Android SDK Platform-tools
-* Android SDK Build-Tools 23.0.2 or later
+* Android SDK Build-tools 23.0.2 or later
 * Android SDK Platform 23 or later
 * Android Support Library 23.1.1 or later
 

@@ -5,6 +5,10 @@
 # https://lint.travis-ci.org
 # ---------------------------------------------------------------
 
+env:
+  global:
+    secure: LtGBDRcP0QuvfLF0xCdKcaswaTNvhnWkWP1SVyDbH3YAQwDxmEDCbM+GMUtOfNfoYkEVjDUU9rX/phGwXW6D0YjNGFdp5DjkylD3kV2T6a5W4wXRpIqWNeRnYM4Xe1vuI9+/WKQEQCvXlJwpr/XAQA1dRREwj/mk7VxSTIMLUy2+t6KwyoIHefxK0JdAc+tQIC0zyuf1CwYCIRfsmQrZxVLDOaELE/sx+Sn4Cv0gtmi6lxqNgQ4ONNvppatIT4x91BdwTl5RS0eb9nXam4zoKrct5CsIhpAoTAEg0SSqihjCsT0/MHOMVx7sjFgP8SMS3tVirqe4aMNLhq9kUr8UaZsa1oaCXLmZw5Hv/w0e7cBWojLRWklYeAbQ4HZ+uXUle8rQW2bPE3UXkhusqmPadS2NjXrYS8Nd1BUbmLeIhueqygh2+Fq0uN6q43rjzG5OlsLxkg2D+dZQsDGI7FMOxzQUS2+z0/iPpobV2fgu2lUDDLkWgWky/AdX+qRpxdHkofessSGVHg8ExshkNj5OcUSVIcOII0NibEmSEy78T84qbTWZxWGi5BIDgY+pVCmV3mTzWs1Soom2xkQim9L2Yopu4UhV3cpZO6ahJ2zeSWsySjAW1fGvbXTSb937djx5PUwlREE2awXXOWO2VfQQXuajHIXKGCYdI+1ilKDzEV0=
+
 language: android
 
 jdk: oraclejdk8
@@ -19,7 +23,7 @@ android:
 script: ./gradlew assembleDebug check
 
 after_success:
-  - "export SHORT_HASH=$(echo $TRAVIS_COMMIT | head -c 8)"
+  - "export SHORT_HASH=$(echo $TRAVIS_COMMIT | head -c 7)"
   - "export FILENAME=soundboard-snapshot-${SHORT_HASH}.apk"
   - "cp app/build/outputs/apk/app-debug.apk ${FILENAME}"
-  - "curl -F filedata=@${FILENAME} https://meonwax.de/soundboard/releases/"
+  - "curl --user ${AUTH} -F filedata=@${FILENAME} https://meonwax.de/soundboard/releases/"
