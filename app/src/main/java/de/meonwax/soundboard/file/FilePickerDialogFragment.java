@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
@@ -16,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import de.meonwax.soundboard.MainActivity;
 import de.meonwax.soundboard.R;
@@ -24,22 +24,23 @@ public class FilePickerDialogFragment extends DialogFragment {
 
     private DirectoryEntryAdapter directoryEntryAdapter;
 
-    private File rootDirectory;
-
-    private File currentDirectory;
+    private Directory currentDirectory;
 
     @Override
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         // Determine root directory to start browsing
-        rootDirectory = Environment.getExternalStorageDirectory();
+        Directory root;
+        Set<File> directories = FileUtils.getExternalStorageDirectories();
+        if (directories != null & directories.size() == 1) {
+            root = new Directory(directories.iterator().next(), null);
+        } else {
+            root = new StorageSelector(getContext(), directories);
+        }
 
         // Create the custom ArrayAdapter
         directoryEntryAdapter = new DirectoryEntryAdapter(getContext());
-
-        // Add directory entries
-        addEntries(rootDirectory);
 
         // Build the dialog
         final AlertDialog dialog = new AlertDialog.Builder(getActivity())
@@ -50,23 +51,26 @@ public class FilePickerDialogFragment extends DialogFragment {
                         ((MainActivity) (getActivity())).onDirectoryAdded(currentDirectory);
                     }
                 })
-                .setTitle(rootDirectory.getAbsolutePath())
+                .setTitle(root.getTitle())
                 .setAdapter(directoryEntryAdapter, null)
                 .create();
+
+        // Add directory entries
+        addEntries(root);
 
         dialog.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DirectoryEntry entry = directoryEntryAdapter.getItem(position);
-                if (entry.isDirectory) {
-                    if (addEntries(new File(entry.path))) {
-                        dialog.setTitle(entry.path);
+                if (entry.isDirectory()) {
+                    if (addEntries(entry.getDirectory())) {
+                        dialog.setTitle(entry.getDirectory().getTitle());
                     }
                 } else {
-                    if (FileUtils.existsExternalFile(getContext(), entry.name)) {
+                    if (FileUtils.existsExternalFile(getContext(), entry.getName())) {
                         Toast.makeText(getContext(), getString(R.string.error_entry_exists), Toast.LENGTH_LONG).show();
                     } else {
-                        ((MainActivity) (getActivity())).onFileAdded(new File(entry.path));
+                        ((MainActivity) (getActivity())).onFileAdded(new File(entry.getPath()));
                     }
                     dismiss();
                 }
@@ -76,17 +80,15 @@ public class FilePickerDialogFragment extends DialogFragment {
         return dialog;
     }
 
-    private boolean addEntries(File directory) {
+    private boolean addEntries(Directory directory) {
         currentDirectory = directory;
         List<DirectoryEntry> entries = readDirectory(directory);
         if (entries != null) {
             directoryEntryAdapter.clear();
-            boolean isRoot = directory.equals(rootDirectory);
-            if (!isRoot) {
-                directoryEntryAdapter.add(new DirectoryEntry(DirectoryEntry.PARENT_DIRECTORY_NAME, FileUtils.getParentDirectory(directory.getAbsolutePath()), 0, true));
+            if (!directory.isRoot()) {
+                directoryEntryAdapter.add(new DirectoryEntry(DirectoryEntry.PARENT_DIRECTORY_NAME, directory.getParent()));
             }
             for (DirectoryEntry e : entries) {
-                FileUtils.getParentDirectory(e.path);
                 directoryEntryAdapter.add(e);
             }
             directoryEntryAdapter.notifyDataSetChanged();
@@ -95,18 +97,23 @@ public class FilePickerDialogFragment extends DialogFragment {
         return false;
     }
 
-    private List<DirectoryEntry> readDirectory(File directory) {
+    private List<DirectoryEntry> readDirectory(Directory directory) {
         if (directory.canRead()) {
             List<DirectoryEntry> entries = new ArrayList<>();
-            for (File file : directory.listFiles()) {
+            for (File file : directory.getFiles()) {
                 // Ignore hidden files and dirs
                 if (file.isHidden()) {
                     continue;
                 }
-                if (!file.isDirectory() && !FileUtils.isWhitelisted(file)) {
-                    continue;
+                if (file.isDirectory()) {
+                    entries.add(new DirectoryEntry(file.getName(), new Directory(file, directory)));
+                } else {
+                    // Ignore non-whitelisted files
+                    if (!FileUtils.isWhitelisted(file)) {
+                        continue;
+                    }
+                    entries.add(new FileEntry(file.getName(), file.length(), file.getAbsolutePath()));
                 }
-                entries.add(new DirectoryEntry(file.getName(), file.getAbsolutePath(), file.length(), file.isDirectory()));
             }
             Collections.sort(entries);
             return entries;

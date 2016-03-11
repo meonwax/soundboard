@@ -4,20 +4,39 @@ import android.support.annotation.NonNull;
 
 import java.util.Locale;
 
-class DirectoryEntry implements Comparable<DirectoryEntry> {
+public class DirectoryEntry implements Comparable<DirectoryEntry> {
 
     public final static String PARENT_DIRECTORY_NAME = "..";
 
-    public final String name;
-    public final String path;
-    public final long size;
-    public final boolean isDirectory;
+    protected String name;
+    protected long size;
+    protected String filePath;
+    private Directory directory;
 
-    public DirectoryEntry(String name, String path, long size, boolean isDirectory) {
+    public DirectoryEntry(String name, Directory directory) {
         this.name = name;
-        this.path = path;
-        this.size = size;
-        this.isDirectory = isDirectory;
+        this.size = 0l;
+        this.directory = directory;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPath() {
+        return directory != null ? directory.getPath() : filePath;
+    }
+
+    public long getSize() {
+        return size;
+    }
+
+    public Directory getDirectory() {
+        return directory;
+    }
+
+    public boolean isDirectory() {
+        return directory != null;
     }
 
     @Override
@@ -26,21 +45,17 @@ class DirectoryEntry implements Comparable<DirectoryEntry> {
         if (name.equals(PARENT_DIRECTORY_NAME)) {
             return -1;
         }
-        if ((isDirectory && another.isDirectory) || (!isDirectory && !another.isDirectory)) {
+        if ((isDirectory() && another.isDirectory()) || (!isDirectory() && !another.isDirectory())) {
             return name.toLowerCase(Locale.US).compareTo(another.name.toLowerCase(Locale.US));
         }
-        if (isDirectory) {
+        if (isDirectory()) {
             return -1;
         }
         return 1;
     }
 
+    @Override
     public String toString() {
-        return "DirectoryEntry{" +
-                "name='" + name + '\'' +
-                ", path='" + path + '\'' +
-                ", size=" + size +
-                ", isDirectory=" + isDirectory +
-                '}';
+        return "DirectoryEntry{name='" + name + "', size=" + size + ", directory=" + directory + '}';
     }
 }

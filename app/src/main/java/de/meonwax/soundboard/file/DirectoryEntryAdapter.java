@@ -33,12 +33,12 @@ class DirectoryEntryAdapter extends ArrayAdapter<DirectoryEntry> {
         ImageView icon = (ImageView) convertView.findViewById(R.id.directory_entry_icon);
 
         // Populate the data into the template view using the DirectoryEntry object
-        name.setText(entry.name);
-        if (entry.isDirectory) {
+        name.setText(entry.getName());
+        if (entry.isDirectory()) {
             size.setText(getContext().getString(R.string.file_directory));
             icon.setImageResource(R.drawable.ic_folder_24dp);
         } else {
-            size.setText(FileUtils.getSize(entry.size));
+            size.setText(FileUtils.getSize(entry.getSize()));
             icon.setImageResource(R.drawable.ic_insert_drive_file_24dp);
         }
 

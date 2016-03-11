@@ -25,6 +25,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.meonwax.soundboard.file.Directory;
 import de.meonwax.soundboard.file.FilePickerDialogFragment;
 import de.meonwax.soundboard.file.FileUtils;
 import de.meonwax.soundboard.sound.Sound;
@@ -138,10 +139,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onDirectoryAdded(File directory) {
+    public void onDirectoryAdded(Directory directory) {
         int fileCount = 0;
         if (directory != null) {
-            for (File file : directory.listFiles()) {
+            for (File file : directory.getFiles()) {
                 if (onFileAdded(file)) {
                     fileCount++;
                 }
