@@ -1,4 +1,4 @@
-package de.meonwax.soundboard.file;
+package de.meonwax.soundboard.filepicker;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,10 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import de.meonwax.soundboard.R;
+import de.meonwax.soundboard.filepicker.entry.IEntry;
+import de.meonwax.soundboard.util.FileUtils;
 
-class DirectoryEntryAdapter extends ArrayAdapter<DirectoryEntry> {
+public class EntryAdapter extends ArrayAdapter<IEntry> {
 
-    public DirectoryEntryAdapter(Context context) {
+    public EntryAdapter(Context context) {
         super(context, 0);
     }
 
@@ -20,11 +22,11 @@ class DirectoryEntryAdapter extends ArrayAdapter<DirectoryEntry> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         // Get the entry for this position
-        DirectoryEntry entry = getItem(position);
+        IEntry entry = getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.directory_entry, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.filepicker_entry, parent, false);
         }
 
         // Lookup view for data population

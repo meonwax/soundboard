@@ -1,4 +1,4 @@
-package de.meonwax.soundboard;
+package de.meonwax.soundboard.activity;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -25,9 +25,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.meonwax.soundboard.file.Directory;
-import de.meonwax.soundboard.file.FilePickerDialogFragment;
-import de.meonwax.soundboard.file.FileUtils;
+import de.meonwax.soundboard.R;
+import de.meonwax.soundboard.filepicker.dir.Directory;
+import de.meonwax.soundboard.filepicker.FilePickerDialogFragment;
+import de.meonwax.soundboard.util.FileUtils;
 import de.meonwax.soundboard.sound.Sound;
 import de.meonwax.soundboard.sound.SoundAdapter;
 import de.meonwax.soundboard.sound.SoundPoolBuilder;

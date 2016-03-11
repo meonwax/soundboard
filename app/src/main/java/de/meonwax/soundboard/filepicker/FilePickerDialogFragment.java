@@ -1,4 +1,4 @@
-package de.meonwax.soundboard.file;
+package de.meonwax.soundboard.filepicker;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -17,12 +17,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import de.meonwax.soundboard.MainActivity;
+import de.meonwax.soundboard.activity.MainActivity;
 import de.meonwax.soundboard.R;
+import de.meonwax.soundboard.filepicker.dir.Directory;
+import de.meonwax.soundboard.filepicker.dir.StorageSelector;
+import de.meonwax.soundboard.filepicker.entry.DirectoryEntry;
+import de.meonwax.soundboard.filepicker.entry.FileEntry;
+import de.meonwax.soundboard.filepicker.entry.IEntry;
+import de.meonwax.soundboard.util.FileUtils;
 
 public class FilePickerDialogFragment extends DialogFragment {
 
-    private DirectoryEntryAdapter directoryEntryAdapter;
+    private EntryAdapter entryAdapter;
 
     private Directory currentDirectory;
 
@@ -40,7 +46,7 @@ public class FilePickerDialogFragment extends DialogFragment {
         }
 
         // Create the custom ArrayAdapter
-        directoryEntryAdapter = new DirectoryEntryAdapter(getContext());
+        entryAdapter = new EntryAdapter(getContext());
 
         // Build the dialog
         final AlertDialog dialog = new AlertDialog.Builder(getActivity())
@@ -52,7 +58,7 @@ public class FilePickerDialogFragment extends DialogFragment {
                     }
                 })
                 .setTitle(root.getTitle())
-                .setAdapter(directoryEntryAdapter, null)
+                .setAdapter(entryAdapter, null)
                 .create();
 
         // Add directory entries
@@ -61,7 +67,7 @@ public class FilePickerDialogFragment extends DialogFragment {
         dialog.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DirectoryEntry entry = directoryEntryAdapter.getItem(position);
+                IEntry entry = entryAdapter.getItem(position);
                 if (entry.isDirectory()) {
                     if (addEntries(entry.getDirectory())) {
                         dialog.setTitle(entry.getDirectory().getTitle());
@@ -84,14 +90,14 @@ public class FilePickerDialogFragment extends DialogFragment {
         currentDirectory = directory;
         List<DirectoryEntry> entries = readDirectory(directory);
         if (entries != null) {
-            directoryEntryAdapter.clear();
+            entryAdapter.clear();
             if (!directory.isRoot()) {
-                directoryEntryAdapter.add(new DirectoryEntry(DirectoryEntry.PARENT_DIRECTORY_NAME, directory.getParent()));
+                entryAdapter.add(new DirectoryEntry(DirectoryEntry.PARENT_DIRECTORY_NAME, directory.getParent()));
             }
             for (DirectoryEntry e : entries) {
-                directoryEntryAdapter.add(e);
+                entryAdapter.add(e);
             }
-            directoryEntryAdapter.notifyDataSetChanged();
+            entryAdapter.notifyDataSetChanged();
             return true;
         }
         return false;

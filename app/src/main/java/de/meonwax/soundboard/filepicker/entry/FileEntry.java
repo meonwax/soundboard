@@ -1,4 +1,4 @@
-package de.meonwax.soundboard.file;
+package de.meonwax.soundboard.filepicker.entry;
 
 public class FileEntry extends DirectoryEntry {
 
@@ -6,5 +6,10 @@ public class FileEntry extends DirectoryEntry {
         super(name, null);
         this.size = size;
         this.filePath = filePath;
+    }
+
+    @Override
+    public boolean isDirectory() {
+        return false;
     }
 }

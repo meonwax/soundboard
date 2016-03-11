@@ -1,4 +1,4 @@
-package de.meonwax.soundboard.file;
+package de.meonwax.soundboard.filepicker.dir;
 
 import android.content.Context;
 
@@ -12,7 +12,7 @@ public class StorageSelector extends Directory {
     private Set<File> storageDirectories;
     private Context context;
 
-    StorageSelector(Context context, Set<File> storageDirectories) {
+    public StorageSelector(Context context, Set<File> storageDirectories) {
         super(null, null);
         this.context = context;
         this.storageDirectories = storageDirectories;

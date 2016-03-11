@@ -1,10 +1,12 @@
-package de.meonwax.soundboard.file;
+package de.meonwax.soundboard.filepicker.entry;
 
 import android.support.annotation.NonNull;
 
 import java.util.Locale;
 
-public class DirectoryEntry implements Comparable<DirectoryEntry> {
+import de.meonwax.soundboard.filepicker.dir.Directory;
+
+public class DirectoryEntry implements IEntry {
 
     public final static String PARENT_DIRECTORY_NAME = "..";
 
@@ -19,34 +21,39 @@ public class DirectoryEntry implements Comparable<DirectoryEntry> {
         this.directory = directory;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public String getPath() {
         return directory != null ? directory.getPath() : filePath;
     }
 
+    @Override
     public long getSize() {
         return size;
     }
 
+    @Override
     public Directory getDirectory() {
         return directory;
     }
 
+    @Override
     public boolean isDirectory() {
-        return directory != null;
+        return true;
     }
 
     @Override
-    public int compareTo(@NonNull DirectoryEntry another) {
+    public int compareTo(@NonNull IEntry anotherEntry) {
         // Parent directory will always be the first entry
-        if (name.equals(PARENT_DIRECTORY_NAME)) {
+        if (getName().equals(PARENT_DIRECTORY_NAME)) {
             return -1;
         }
-        if ((isDirectory() && another.isDirectory()) || (!isDirectory() && !another.isDirectory())) {
-            return name.toLowerCase(Locale.US).compareTo(another.name.toLowerCase(Locale.US));
+        if ((isDirectory() && anotherEntry.isDirectory()) || (!isDirectory() && !anotherEntry.isDirectory())) {
+            return getName().toLowerCase(Locale.US).compareTo(anotherEntry.getName().toLowerCase(Locale.US));
         }
         if (isDirectory()) {
             return -1;

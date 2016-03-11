@@ -1,4 +1,4 @@
-package de.meonwax.soundboard;
+package de.meonwax.soundboard.activity;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import de.meonwax.soundboard.R;
 
 public class AboutActivity extends AppCompatActivity {
 

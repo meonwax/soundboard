@@ -1,4 +1,4 @@
-package de.meonwax.soundboard.file;
+package de.meonwax.soundboard.filepicker.dir;
 
 import java.io.File;
 import java.util.Arrays;
@@ -10,7 +10,7 @@ public class Directory {
     private File file;
     private Directory parent;
 
-    Directory(File file, Directory parent) {
+    public Directory(File file, Directory parent) {
         this.file = file;
         this.parent = parent;
     }
