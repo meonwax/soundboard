@@ -4,11 +4,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.File;
@@ -17,8 +19,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import de.meonwax.soundboard.activity.MainActivity;
 import de.meonwax.soundboard.R;
+import de.meonwax.soundboard.activity.MainActivity;
 import de.meonwax.soundboard.filepicker.dir.Directory;
 import de.meonwax.soundboard.filepicker.dir.StorageSelector;
 import de.meonwax.soundboard.filepicker.entry.DirectoryEntry;
@@ -32,12 +34,14 @@ public class FilePickerDialogFragment extends DialogFragment {
 
     private Directory currentDirectory;
 
+    private Button importDirectoryButton;
+
     @Override
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         // Determine root directory to start browsing
-        Directory root;
+        final Directory root;
         Set<File> directories = FileUtils.getExternalStorageDirectories();
         if (directories != null & directories.size() == 1) {
             root = new Directory(directories.iterator().next(), null);
@@ -61,9 +65,6 @@ public class FilePickerDialogFragment extends DialogFragment {
                 .setAdapter(entryAdapter, null)
                 .create();
 
-        // Add directory entries
-        addEntries(root);
-
         dialog.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -83,10 +84,21 @@ public class FilePickerDialogFragment extends DialogFragment {
             }
         });
 
+        dialog.setOnShowListener(new OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                importDirectoryButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                // Add directory entries
+                addEntries(root);
+            }
+        });
+
         return dialog;
     }
 
     private boolean addEntries(Directory directory) {
+        // Hide the button on storage selection
+        importDirectoryButton.setVisibility(directory instanceof StorageSelector ? View.INVISIBLE : View.VISIBLE);
         currentDirectory = directory;
         List<DirectoryEntry> entries = readDirectory(directory);
         if (entries != null) {
