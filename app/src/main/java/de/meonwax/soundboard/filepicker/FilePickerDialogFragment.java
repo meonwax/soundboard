@@ -124,7 +124,8 @@ public class FilePickerDialogFragment extends DialogFragment {
                     continue;
                 }
                 if (file.isDirectory()) {
-                    entries.add(new DirectoryEntry(file.getName(), new Directory(file, directory)));
+                    String dirName = directory instanceof StorageSelector ? file.getAbsolutePath() : file.getName();
+                    entries.add(new DirectoryEntry(dirName, new Directory(file, directory)));
                 } else {
                     // Ignore non-whitelisted files
                     if (!FileUtils.isWhitelisted(file)) {
