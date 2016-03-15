@@ -1,9 +1,8 @@
 package de.meonwax.soundboard.util;
 
 import android.content.Context;
-import android.os.Build;
-import android.os.Environment;
-import android.text.TextUtils;
+import android.os.storage.StorageManager;
+import android.os.storage.StorageVolume;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,6 +11,7 @@ import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,9 +25,13 @@ import de.meonwax.soundboard.R;
 
 public class FileUtils {
 
+    private static final String LOG_TAG = FileUtils.class.getSimpleName();
+
     private final static String[] EXTENSION_WHITELIST = new String[]{"wav", "mp3", "ogg"};
 
     private final static String TYPE_SOUND = "Sound";
+
+    private static Set<File> storageDirectories;
 
     /**
      * Converts the bytes value into a human readable string
@@ -102,9 +106,9 @@ public class FileUtils {
                 inChannel = new FileInputStream(file).getChannel();
                 outChannel = new FileOutputStream(outputFile).getChannel();
                 inChannel.transferTo(0, inChannel.size(), outChannel);
-                Log.d(FileUtils.class.getSimpleName(), String.format("Copied %s to %s", file.getAbsolutePath(), outputFile.getAbsolutePath()));
+                Log.d(LOG_TAG, String.format("Copied %s to %s", file.getAbsolutePath(), outputFile.getAbsolutePath()));
             } catch (IOException e) {
-                Log.e(FileUtils.class.getSimpleName(), e.getMessage());
+                Log.e(LOG_TAG, e.getMessage());
                 try {
                     if (inChannel != null && inChannel.isOpen()) {
                         inChannel.close();
@@ -119,59 +123,28 @@ public class FileUtils {
     }
 
     /**
-     * Get all available SD card directories
-     * Based on http://stackoverflow.com/a/18871043
+     * Get all available storage directories.
+     * Inspired by CyanogenMod File Manager:
+     * https://github.com/CyanogenMod/android_packages_apps_CMFileManager
      */
-    public static Set<File> getExternalStorageDirectories() {
-
-        Set<File> dirs = new HashSet<>();
-
-        // Primary physical SD card (not emulated)
-        String rawExternalStorage = System.getenv("EXTERNAL_STORAGE");
-
-        // Primary emulated SD card
-        String rawEmulatedStorageTarget = System.getenv("EMULATED_STORAGE_TARGET");
-        if (TextUtils.isEmpty(rawEmulatedStorageTarget)) {
-
-            // Device has physical external storage
-            if (TextUtils.isEmpty(rawExternalStorage)) {
-                dirs.add(new File("/storage/sdcard0"));
-            } else {
-                dirs.add(new File(rawExternalStorage));
-            }
-        } else {
-
-            // Device has emulated storage
-            // External storage paths should have userId burned into them
-            String rawUserId = null;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                String path = Environment.getExternalStorageDirectory().getAbsolutePath();
-                String[] folders = path.split("/");
-                String lastFolder = folders[folders.length - 1];
-                try {
-                    Integer.valueOf(lastFolder);
-                    // If it is a digit, use it
-                    rawUserId = lastFolder;
-                } catch (NumberFormatException ignored) {
+    public static Set<File> getStorageDirectories(Context context) {
+        if (storageDirectories == null) {
+            try {
+                // Use reflection to retrieve storage volumes because required classes and methods are hidden in AOSP.
+                StorageManager storageManager = (StorageManager) context.getSystemService(Context.STORAGE_SERVICE);
+                Method method = storageManager.getClass().getMethod("getVolumeList");
+                StorageVolume[] storageVolumes = (StorageVolume[]) method.invoke(storageManager);
+                if (storageVolumes != null && storageVolumes.length > 0) {
+                    storageDirectories = new HashSet<>();
+                    for (StorageVolume volume : storageVolumes) {
+                        storageDirectories.add(new File(volume.getPath()));
+                    }
                 }
-            }
 
-            // /storage/emulated/0[1,2,...]
-            if (rawUserId == null) {
-                dirs.add(new File(rawEmulatedStorageTarget));
-            } else {
-                dirs.add(new File(rawEmulatedStorageTarget + File.separator + rawUserId));
+            } catch (Exception e) {
+                Log.e(LOG_TAG, e.getMessage());
             }
         }
-
-        // All secondary SD cards (all exclude primary) separated by ":"
-        String rawSecondaryStoragesStr = System.getenv("SECONDARY_STORAGE");
-        if (!TextUtils.isEmpty(rawSecondaryStoragesStr)) {
-            for (String rawSecondaryStorage : rawSecondaryStoragesStr.split(File.pathSeparator)) {
-                dirs.add(new File(rawSecondaryStorage));
-            }
-        }
-
-        return dirs;
+        return storageDirectories;
     }
 }

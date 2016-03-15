@@ -42,7 +42,7 @@ public class FilePickerDialogFragment extends DialogFragment {
 
         // Determine root directory to start browsing
         final Directory root;
-        Set<File> directories = FileUtils.getExternalStorageDirectories();
+        Set<File> directories = FileUtils.getStorageDirectories(getContext());
         if (directories != null & directories.size() == 1) {
             root = new Directory(directories.iterator().next(), null);
         } else {
