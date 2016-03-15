@@ -43,7 +43,7 @@ public class FilePickerDialogFragment extends DialogFragment {
         // Determine root directory to start browsing
         final Directory root;
         Set<File> directories = FileUtils.getStorageDirectories(getContext());
-        if (directories != null & directories.size() == 1) {
+        if (directories != null && directories.size() == 1) {
             root = new Directory(directories.iterator().next(), null);
         } else {
             root = new StorageSelector(getContext(), directories);
@@ -70,7 +70,7 @@ public class FilePickerDialogFragment extends DialogFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 IEntry entry = entryAdapter.getItem(position);
                 if (entry.isDirectory()) {
-                    if (addEntries(entry.getDirectory(), (AlertDialog) dialog)) {
+                    if (addEntries(entry.getDirectory(), dialog)) {
                         dialog.setTitle(entry.getDirectory().getTitle());
                     }
                 } else {

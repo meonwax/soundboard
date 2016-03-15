@@ -9,8 +9,8 @@ import de.meonwax.soundboard.R;
 
 public class StorageSelector extends Directory {
 
-    private Set<File> storageDirectories;
-    private Context context;
+    private final Set<File> storageDirectories;
+    private final Context context;
 
     public StorageSelector(Context context, Set<File> storageDirectories) {
         super(null, null);

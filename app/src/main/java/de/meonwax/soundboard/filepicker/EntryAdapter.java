@@ -12,7 +12,7 @@ import de.meonwax.soundboard.R;
 import de.meonwax.soundboard.filepicker.entry.IEntry;
 import de.meonwax.soundboard.util.FileUtils;
 
-public class EntryAdapter extends ArrayAdapter<IEntry> {
+class EntryAdapter extends ArrayAdapter<IEntry> {
 
     public EntryAdapter(Context context) {
         super(context, 0);

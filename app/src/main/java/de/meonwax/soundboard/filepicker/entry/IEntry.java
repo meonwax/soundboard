@@ -4,13 +4,13 @@ import de.meonwax.soundboard.filepicker.dir.Directory;
 
 public interface IEntry extends Comparable<IEntry> {
 
-    public String getName();
+    String getName();
 
-    public String getPath();
+    String getPath();
 
-    public long getSize();
+    long getSize();
 
-    public Directory getDirectory();
+    Directory getDirectory();
 
-    public boolean isDirectory();
+    boolean isDirectory();
 }

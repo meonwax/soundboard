@@ -10,10 +10,10 @@ public class DirectoryEntry implements IEntry {
 
     public final static String PARENT_DIRECTORY_NAME = "..";
 
-    protected String name;
-    protected long size;
-    protected String filePath;
-    private Directory directory;
+    private final String name;
+    long size;
+    String filePath;
+    private final Directory directory;
 
     public DirectoryEntry(String name, Directory directory) {
         this.name = name;

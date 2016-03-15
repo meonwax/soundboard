@@ -7,8 +7,8 @@ import java.util.Set;
 
 public class Directory {
 
-    private File file;
-    private Directory parent;
+    private final File file;
+    private final Directory parent;
 
     public Directory(File file, Directory parent) {
         this.file = file;
@@ -36,15 +36,12 @@ public class Directory {
     }
 
     public Set<File> getFiles() {
-        return new HashSet<File>(Arrays.asList(file.listFiles()));
+        return new HashSet<>(Arrays.asList(file.listFiles()));
     }
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Directory)) {
-            return false;
-        }
-        return getPath().equals(((Directory) o).getPath());
+        return o instanceof Directory && getPath().equals(((Directory) o).getPath());
     }
 
     @Override
