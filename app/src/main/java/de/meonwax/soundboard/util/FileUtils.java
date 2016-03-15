@@ -27,6 +27,12 @@ public class FileUtils {
 
     private static final String LOG_TAG = FileUtils.class.getSimpleName();
 
+    public static final long KB_IN_BYTES = 1024;
+    public static final long MB_IN_BYTES = KB_IN_BYTES * 1024;
+    public static final long GB_IN_BYTES = MB_IN_BYTES * 1024;
+    public static final long TB_IN_BYTES = GB_IN_BYTES * 1024;
+    public static final long PB_IN_BYTES = TB_IN_BYTES * 1024;
+
     private final static String[] EXTENSION_WHITELIST = new String[]{"wav", "mp3", "ogg"};
 
     private final static String TYPE_SOUND = "Sound";
@@ -62,47 +68,47 @@ public class FileUtils {
         return "";
     }
 
-    public static String getExternalPath(Context context, File file) {
-        return getExternalPath(context, file.getName());
+    public static String getInternalPath(Context context, File file) {
+        return getInternalPath(context, file.getName());
     }
 
-    private static String getExternalPath(Context context, String fileName) {
-        File externalDir = context.getExternalFilesDir(TYPE_SOUND);
-        if (externalDir == null) {
-            Toast.makeText(context, context.getString(R.string.error_no_external_storage), Toast.LENGTH_LONG).show();
+    private static String getInternalPath(Context context, String fileName) {
+        File dir = context.getExternalFilesDir(TYPE_SOUND);
+        if (dir == null) {
+            Toast.makeText(context, context.getString(R.string.error_no_storage), Toast.LENGTH_LONG).show();
             return null;
         }
-        return externalDir + File.separator + fileName;
+        return dir + File.separator + fileName;
     }
 
-    public static List<File> getExternalFiles(Context context) {
+    public static List<File> getInternalFiles(Context context) {
         List<File> files = new ArrayList<>();
-        File externalDir = context.getExternalFilesDir(TYPE_SOUND);
-        if (externalDir != null) {
-            Collections.addAll(files, new File(externalDir.getAbsolutePath()).listFiles(new FileFilter() {
+        File dir = context.getExternalFilesDir(TYPE_SOUND);
+        if (dir != null) {
+            Collections.addAll(files, new File(dir.getAbsolutePath()).listFiles(new FileFilter() {
                 @Override
                 public boolean accept(File file) {
                     return isWhitelisted(file);
                 }
             }));
         } else {
-            Toast.makeText(context, context.getString(R.string.error_no_external_storage), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.error_no_storage), Toast.LENGTH_LONG).show();
         }
         return files;
     }
 
-    public static boolean existsExternalFile(Context context, String fileName) {
-        String externalPath = FileUtils.getExternalPath(context, fileName);
-        return (externalPath != null && new File(externalPath).exists());
+    public static boolean existsInternalFile(Context context, String fileName) {
+        String internalPath = FileUtils.getInternalPath(context, fileName);
+        return (internalPath != null && new File(internalPath).exists());
     }
 
-    public static void copyToExternal(Context context, File file) {
+    public static void copyToInternal(Context context, File file) {
         FileChannel inChannel = null;
         FileChannel outChannel = null;
-        String externalPath = getExternalPath(context, file);
-        if (externalPath != null) {
+        String internalPath = getInternalPath(context, file);
+        if (internalPath != null) {
             try {
-                File outputFile = new File(externalPath);
+                File outputFile = new File(internalPath);
                 inChannel = new FileInputStream(file).getChannel();
                 outChannel = new FileOutputStream(outputFile).getChannel();
                 inChannel.transferTo(0, inChannel.size(), outChannel);

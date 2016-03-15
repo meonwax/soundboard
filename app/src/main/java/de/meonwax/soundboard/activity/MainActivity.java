@@ -26,12 +26,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.meonwax.soundboard.R;
-import de.meonwax.soundboard.filepicker.dir.Directory;
 import de.meonwax.soundboard.filepicker.FilePickerDialogFragment;
-import de.meonwax.soundboard.util.FileUtils;
+import de.meonwax.soundboard.filepicker.dir.Directory;
 import de.meonwax.soundboard.sound.Sound;
 import de.meonwax.soundboard.sound.SoundAdapter;
 import de.meonwax.soundboard.sound.SoundPoolBuilder;
+import de.meonwax.soundboard.util.FileUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         soundList.setAdapter(soundAdapter);
 
         // Populate sound files
-        List<File> soundFiles = FileUtils.getExternalFiles(this);
+        List<File> soundFiles = FileUtils.getInternalFiles(this);
         if (!soundFiles.isEmpty()) {
             for (File file : soundFiles) {
                 addSound(file);
@@ -153,11 +153,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onFileAdded(File file) {
-        String externalPath = FileUtils.getExternalPath(this, file);
-        if (externalPath != null &&
-                !FileUtils.existsExternalFile(this, file.getName()) &&
+        String internalPath = FileUtils.getInternalPath(this, file);
+        if (internalPath != null &&
+                !FileUtils.existsInternalFile(this, file.getName()) &&
                 FileUtils.isWhitelisted(file)) {
-            FileUtils.copyToExternal(this, file);
+            FileUtils.copyToInternal(this, file);
             addSound(file);
             return true;
         }
@@ -188,8 +188,8 @@ public class MainActivity extends AppCompatActivity {
         soundPool.unload(sound.getId());
 
         // Delete from filesystem
-        String externalPath = FileUtils.getExternalPath(this, new File(sound.getName()));
-        if (externalPath == null || !new File(externalPath).delete()) {
+        String internalPath = FileUtils.getInternalPath(this, new File(sound.getName()));
+        if (internalPath == null || !new File(internalPath).delete()) {
             Toast.makeText(this, getString(R.string.error_remove), Toast.LENGTH_LONG).show();
         }
     }

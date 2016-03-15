@@ -74,7 +74,7 @@ public class FilePickerDialogFragment extends DialogFragment {
                         dialog.setTitle(entry.getDirectory().getTitle());
                     }
                 } else {
-                    if (FileUtils.existsExternalFile(getContext(), entry.getName())) {
+                    if (FileUtils.existsInternalFile(getContext(), entry.getName())) {
                         Toast.makeText(getContext(), getString(R.string.error_entry_exists), Toast.LENGTH_LONG).show();
                     } else {
                         ((MainActivity) (getActivity())).onFileAdded(new File(entry.getPath()));
