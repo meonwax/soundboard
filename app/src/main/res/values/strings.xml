@@ -4,11 +4,13 @@
     <string name="button_cancel">Cancel</string>
     <string name="button_import_directory">Import directory</string>
     <string name="action_new">Import sound</string>
+    <string name="action_remove_all">Remove all sounds</string>
     <string name="action_about">About</string>
     <string name="action_exit">Exit</string>
     <string name="file_directory">Directory</string>
     <string name="file_storage_selection">Storage selection</string>
     <string name="confirm_remove"><![CDATA[Are you sure you want to remove <b>%s</b> ?]]></string>
+    <string name="confirm_remove_all"><![CDATA[Are you sure you want to remove <b>all</b> sounds?]]></string>
     <string name="import_directory_info">%s sound files imported.</string>
     <string name="error_entry_exists">Entry already exists.</string>
     <string name="error_no_storage">Sound storage is currently not available. Please ensure that your SD Card is accessible and try again.</string>

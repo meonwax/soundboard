@@ -14,8 +14,8 @@ import android.widget.ImageButton;
 
 import java.util.List;
 
-import de.meonwax.soundboard.activity.MainActivity;
 import de.meonwax.soundboard.R;
+import de.meonwax.soundboard.activity.MainActivity;
 
 public class SoundAdapter extends BaseAdapter {
 

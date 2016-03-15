@@ -8,6 +8,12 @@
         compat:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/action_remove_all"
+        android:icon="@drawable/ic_delete_24dp"
+        android:title="@string/action_remove_all"
+        compat:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_info"
         android:icon="@drawable/ic_info_24dp"
         android:title="@string/action_about"

@@ -129,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
                 DialogFragment filePickerFragment = new FilePickerDialogFragment();
                 filePickerFragment.show(getSupportFragmentManager(), "filePicker");
                 break;
+            case R.id.action_remove_all:
+                removeAll();
+                break;
             case R.id.action_info:
                 Intent intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
@@ -176,6 +179,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void playSound(int soundId) {
         soundPool.play(soundId, 1f, 1f, 1, 0, 1);
+    }
+
+    public void removeAll() {
+        new AlertDialog.Builder(this)
+                .setMessage(Html.fromHtml(getString(R.string.confirm_remove_all)))
+                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (int i = sounds.size() - 1; i >= 0; i--) {
+                            removeSound(i);
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.button_cancel, null)
+                .show();
     }
 
     public void removeSound(int position) {
