@@ -70,7 +70,7 @@ public class FilePickerDialogFragment extends DialogFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 IEntry entry = entryAdapter.getItem(position);
                 if (entry.isDirectory()) {
-                    if (addEntries(entry.getDirectory())) {
+                    if (addEntries(entry.getDirectory(), (AlertDialog) dialog)) {
                         dialog.setTitle(entry.getDirectory().getTitle());
                     }
                 } else {
@@ -89,14 +89,14 @@ public class FilePickerDialogFragment extends DialogFragment {
             public void onShow(DialogInterface dialog) {
                 importDirectoryButton = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
                 // Add directory entries
-                addEntries(root);
+                addEntries(root, ((AlertDialog) dialog));
             }
         });
 
         return dialog;
     }
 
-    private boolean addEntries(Directory directory) {
+    private boolean addEntries(Directory directory, final AlertDialog dialog) {
         // Hide the button on storage selection
         importDirectoryButton.setVisibility(directory instanceof StorageSelector ? View.INVISIBLE : View.VISIBLE);
         currentDirectory = directory;
@@ -110,6 +110,13 @@ public class FilePickerDialogFragment extends DialogFragment {
                 entryAdapter.add(e);
             }
             entryAdapter.notifyDataSetChanged();
+            // Be sure to scroll to top when the list contents change
+            dialog.getListView().post(new Runnable() {
+                @Override
+                public void run() {
+                    dialog.getListView().setSelectionAfterHeaderView();
+                }
+            });
             return true;
         }
         return false;
