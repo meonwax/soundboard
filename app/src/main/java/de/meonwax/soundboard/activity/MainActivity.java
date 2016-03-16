@@ -49,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         init();
+
+        // We were called by a view intent from another app
+        if (Intent.ACTION_VIEW.equals(getIntent().getAction())) {
+            onSendFile(getIntent());
+        }
     }
 
     private void init() {
@@ -165,6 +170,17 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    private void onSendFile(Intent intent) {
+        if (intent.getType() != null && intent.getType().startsWith("audio/")) {
+            File newFile = new File(intent.getData().getPath());
+            if (FileUtils.existsInternalFile(this, newFile.getName())) {
+                Toast.makeText(this, getString(R.string.error_entry_exists), Toast.LENGTH_LONG).show();
+            } else if (!(onFileAdded(new File(intent.getData().getPath())))) {
+                Toast.makeText(this, getString(R.string.error_add, intent.getData().getPath()), Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     private void addSound(File soundFile) {

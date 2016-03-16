@@ -12,6 +12,7 @@
     <string name="confirm_remove_all"><![CDATA[Wirklich <b>alle</b> Sounds entfernen?]]></string>
     <string name="import_directory_info">%s Sound-Dateien importiert.</string>
     <string name="error_entry_exists">Der Eintrag existiert bereits.</string>
+    <string name="error_add">Konnte %s nicht importieren.</string>
     <string name="error_no_storage">Der Speicherort der Sounds is momentan nicht verfügbar. Bitte stelle sicher, dass Deine SD-Karte verfügbar ist und versuche es anschließend noch einmal.</string>
     <string name="error_permission_denied"><![CDATA[<b>%s</b> kann ohne erlaubten Zugriff auf den Medienspeicher nicht ausgeführt werden.]]></string>
     <string name="error_remove">Beim Entfernen ist ein Fehler aufgetreten.</string>

@@ -13,6 +13,7 @@
     <string name="confirm_remove_all"><![CDATA[Are you sure you want to remove <b>all</b> sounds?]]></string>
     <string name="import_directory_info">%s sound files imported.</string>
     <string name="error_entry_exists">Entry already exists.</string>
+    <string name="error_add">Could not import %s</string>
     <string name="error_no_storage">Sound storage is currently not available. Please ensure that your SD Card is accessible and try again.</string>
     <string name="error_permission_denied"><![CDATA[<b>%s</b> cannot run when access to the device storage is denied.]]></string>
     <string name="error_remove">An error occurred while removing sound.</string>
