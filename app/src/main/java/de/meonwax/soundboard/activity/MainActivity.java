@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
         soundPool.play(soundId, 1f, 1f, 1, 0, 1);
     }
 
-    public void removeAll() {
+    private void removeAll() {
         new AlertDialog.Builder(this)
                 .setMessage(Html.fromHtml(getString(R.string.confirm_remove_all)))
                 .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
